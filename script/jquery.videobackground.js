@@ -116,6 +116,16 @@
 			if (settings.preloader) {
 				$.fn.videobackground.methods.preload();
 				$('video', self).bind('canplaythrough', function() {
+					/*
+					 * Chrome doesn't currently using the autoplay attribute.
+					 * Autoplay initiated through JavaScript.
+					 *
+					 */
+					if (settings.autoplay) {		
+							$('video', self).get(0).play();
+							$(this).toggleClass('paused');
+							$(this).text(settings.controlsText[1]);
+					}
 					$.fn.videobackground.methods.loaded();
 				});
 			}
@@ -200,6 +210,18 @@
 					$(this).text(settings.controlsText[3]);
 		    }
 			});	
+			/*
+			 * Firefox doesn't currently use the loop attribute.
+			 * Loop bound to the video ended event.
+			 *
+			 */	
+			if (settings.loop) {		
+				$('video', self).bind('ended', function(){ 
+					$('video', self).get(0).play();
+					$(this).toggleClass('paused');
+					$(this).text(settings.controlsText[1]);
+		    });
+			}
 		},
 		/*
 		 *	
