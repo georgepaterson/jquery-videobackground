@@ -46,7 +46,7 @@
 		<script src="script/jquery.videobackground.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('#video-background').videobackground({webm: 'video/dizzy.webm', ogv: 'video/dizzy.ogv', mp4: 'video/dizzy.m4v'});
+				$('#video-background').videobackground({webm: 'video/dizzy.webm', ogv: 'video/dizzy.ogv', mp4: 'video/dizzy.m4v', controls: '#main'});
 			});
 		</script>
     </head>
@@ -73,12 +73,9 @@
 							<li>preload:</li>
 							<li>loop:</li>
 							<li>controls:</li>
-							<li>play:</li>
-							<li>pause:</li>
-							<li>mute:</li>
-							<li>unmute:</li>
+							<li>controlsText:</li>
 							<li>preloader:</li>
-							<li>preloadText:</li>
+							<li>preloadHtml:</li>
 							<li>loadedCallback:</li>
 						</ul>
 						<p>Videos from <a href="http://html5demos.com/">http://html5demos.com/</a>.</p>

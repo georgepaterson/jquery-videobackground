@@ -1,5 +1,6 @@
 /*!
  * jQuery Video Background plugin
+ * https://github.com/georgepaterson/jquery-videobackground
  *
  * Copyright 2011, George Paterson
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -46,14 +47,11 @@
 		poster: null,
 		autoplay: true,
 		preload: 'none',
-		loop: false,
-		controls: '#main',
-		play: 'Play', 
-		pause: 'Pause', 
-		mute: 'Mute', 
-		unmute: 'Unmute',
+		loop: true,
+		controls: null,
+		controlsText: ['Play', 'Pause', 'Mute', 'Unmute'],
 		preloader: true,
-		preloadText: '<p>Loading video</p><ul><li><a href="#">Skip video</a></li></ul>',
+		preloadHtml: '<p>Loading video</p><ul><li><a href="#">Skip video</a></li></ul>',
 		loadedCallback: null
 	};
 	$.fn.videobackground.methods = {
@@ -69,8 +67,32 @@
 			 */
 			var documentHeight = $(document).height();
 			$(self).css('height', documentHeight);
-			console.log($(document).height()+' '+ $(window).height())
-			
+			/*
+			 *	
+			 *
+			 */
+			var source = '';
+			if (settings.webm) {
+				source = source + '<source src="'+settings.webm+'">';
+			}
+			if (settings.ogv) {
+				source = source + '<source src="'+settings.ogv+'">';
+			}
+			if (settings.mp4) {
+				source = source + '<source src="'+settings.mp4+'">';
+			}
+			var attributes = '';
+			attributes = attributes + 'preload="'+settings.preload+'"';
+			if (settings.poster) {
+				attributes = attributes + ' poster="'+settings.poster+'"';
+			}
+			if (settings.autoplay) {
+				attributes = attributes + ' autoplay="autoplay"';
+			}
+			if (settings.loop) {
+				attributes = attributes + ' loop="loop"';
+			}
+			$(self).html('<video '+attributes+'>'+source+'</video>');
 			/*
 			 *	
 			 *
@@ -86,33 +108,7 @@
 			 *	
 			 *
 			 */
-			var source = '';
-			if (settings.webm) {
-				source = source + '<source src="'+settings.webm+'">'
-			}
-			if (settings.ogv) {
-				source = source + '<source src="'+settings.ogv+'">'
-			}
-			if (settings.mp4) {
-				source = source + '<source src="'+settings.mp4+'">'
-			}
-			var attributes = '';
-			attributes = attributes + 'preload="'+settings.preload+'"'
-			if (settings.poster) {
-				attributes = attributes + ' poster="'+settings.poster+'"'
-			}
-			if (settings.autoplay) {
-				attributes = attributes + ' autoplay="autoplay"'
-			}
-			if (settings.loop) {
-				attributes = attributes + ' loop="loop"'
-			}
-			$(self).html('<video '+attributes+'>'+source+'</video>');
-			/*
-			 *	
-			 *
-			 */
-			controls = $('<ul class="controls"><li><a class="play" href="#">'+settings.pause+'</a></li><li><a class="mute" href="#">'+settings.mute+'</a></li></ul>');		
+			controls = $('<ul class="controls"><li><a class="play" href="#">'+settings.controlsText[1]+'</a></li><li><a class="mute" href="#">'+settings.controlsText[2]+'</a></li></ul>');		
 			/*
 			 *	
 			 *
@@ -132,21 +128,15 @@
 		 *
 		 */
 		preload: function() {
-			preloading = $(settings.preloadText);
-			$(controlbox).append(preloading);
+			$(controlbox).append(settings.preloadHTML);
 		},
 		/*
 		 *	
 		 *
 		 */
 		loaded: function() {
-			if (settings.controls) {
-				$(controlbox).html(controls);
-			}
-			else {
-				$(controlbox).html(controls);
-			}
-			$.fn.videobackground.methods.events();
+			$(controlbox).html(controls);
+			$.fn.videobackground.methods.loadedEvents();
 			if(settings.loadedCallback) {
 				(settings.loadedCallback).call(this);
 			}
@@ -155,7 +145,7 @@
 		 *	Video events.
 		 *
 		 */
-		events: function() {
+		loadedEvents: function() {
 			/*
 			 *	
 			 *
@@ -176,18 +166,18 @@
 				if ($('video', self).get(0).paused) {
 		    	$('video', self).get(0).play();
 					$(this).toggleClass('paused');
-					$(this).text(settings.pause);
+					$(this).text(settings.controlsText[1]);
 		    } 
 				else {
 					if ($('video', self).get(0).ended) {
 						$('video', self).get(0).play();
 						$(this).toggleClass('paused');
-						$(this).text(settings.pause);
+						$(this).text(settings.controlsText[1]);
 					}
 					else {
 			      $('video', self).get(0).pause();
 						$(this).toggleClass('paused');
-						$(this).text(settings.play);
+						$(this).text(settings.controlsText[0]);
 					}
 		    }
 			});
@@ -201,13 +191,13 @@
 		    	$('video', self).attr('muted', false);
 					$('video', self).get(0).volume = 1;
 					$(this).toggleClass('muted');
-					$(this).text(settings.mute);
+					$(this).text(settings.controlsText[2]);
 		    } 
 				else {
 		      $('video', self).attr('muted', true);
 					$('video', self).get(0).volume = 0;
 					$(this).toggleClass('muted');
-					$(this).text(settings.unmute);
+					$(this).text(settings.controlsText[3]);
 		    }
 			});	
 		},
