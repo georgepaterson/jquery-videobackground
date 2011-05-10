@@ -3,6 +3,7 @@
     <head>
 		<title>jQuery Video Background plugin</title>
 		<meta charset="utf-8">
+		<link href="themes/ui-darkness/jquery-ui-1.8.12.custom.css" rel="stylesheet" media="screen">
 		<link href="jquery.videobackground.css" rel="stylesheet" media="screen">
 		<style>
 			a {
@@ -47,7 +48,13 @@
 		<script src="script/jquery.videobackground.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('#video-background').videobackground({webm: 'video/dizzy.webm', ogv: 'video/dizzy.ogv', mp4: 'video/dizzy.m4v', controls: '#main'});
+				$('#video-background').videobackground({
+					videoSource: ['video/dizzy.webm', 
+						'video/dizzy.ogv', 
+						'video/dizzy.m4v'], 
+					controlPosition: '#main',
+					preloadHtml: '<p>Loading video</p><ul><li><a href="#">Skip video</a></li></ul>'
+				});
 			});
 		</script>
     </head>
@@ -66,17 +73,15 @@
 						<p>Example of the jQuery Video Background plugin. Will place a resizable video in to the background of the page or designated element. Browsers that don't support the HTML5 video element will get an image if a poster image was designated.</p>
 						<p>Plugin parameters include:</p>
 						<ul>
-							<li>webm:</li>
-							<li>ogv:</li>
-							<li>mp4:</li>
+							<li>videoSource:</li>
 							<li>poster:</li>
 							<li>autoplay:</li>
 							<li>preload:</li>
 							<li>loop:</li>
-							<li>controls:</li>
-							<li>controlsText:</li>
-							<li>preloader:</li>
+							<li>controlPosition:</li>
+							<li>controlText:</li>
 							<li>preloadHtml:</li>
+							<li>preloadCallback:</li>
 							<li>loadedCallback:</li>
 						</ul>
 						<p>Videos from <a href="http://html5demos.com/">http://html5demos.com/</a>.</p>

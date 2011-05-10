@@ -41,18 +41,16 @@
 	 *
 	 */
 	$.fn.videobackground.defaults = {
-		webm: '',
-		ogv: '',
-		mp4: '',
+		videoSource: [],
 		poster: null,
 		autoplay: true,
 		preload: 'none',
 		loop: true,
-		controls: null,
-		controlsText: ['Play', 'Pause', 'Mute', 'Unmute'],
-		preloader: true,
-		preloadHtml: '<p>Loading video</p><ul><li><a href="#">Skip video</a></li></ul>',
-		loadedCallback: null
+		controlPosition: null,
+		controlText: ['Play', 'Pause', 'Mute', 'Unmute'],
+		preloadHtml: '',
+		preloadCallback: function(){},
+		loadedCallback: function(){}
 	};
 	$.fn.videobackground.methods = {
 		/*
@@ -62,7 +60,7 @@
 		create: function() {
 			/*
 			 *	Set the height of the container to be the height of the document
-			 *	The video can expand in to the space using min-height: 100;
+			 *	The video can expand in to the space using min-height: 100%;
 			 *
 			 */
 			var documentHeight = $(document).height();
@@ -71,15 +69,11 @@
 			 *	
 			 *
 			 */
-			var source = '';
-			if (settings.webm) {
-				source = source + '<source src="'+settings.webm+'">';
-			}
-			if (settings.ogv) {
-				source = source + '<source src="'+settings.ogv+'">';
-			}
-			if (settings.mp4) {
-				source = source + '<source src="'+settings.mp4+'">';
+			var compiledSource = '',
+				i = 0,
+				j = 0;
+			for (i = 0,  j = settings.videoSource.length; i < j; i++) {
+				compiledSource = compiledSource + '<source src="' + settings.videoSource[i] + '">';
 			}
 			var attributes = '';
 			attributes = attributes + 'preload="'+settings.preload+'"';
@@ -92,14 +86,14 @@
 			if (settings.loop) {
 				attributes = attributes + ' loop="loop"';
 			}
-			$(self).html('<video '+attributes+'>'+source+'</video>');
+			$(self).html('<video '+attributes+'>' + compiledSource + '</video>');
 			/*
 			 *	
 			 *
 			 */
 			controlbox = $('<div id="video-background-controls"></div>');
-			if (settings.controls) {
-				$(settings.controls).append(controlbox);
+			if (settings.controlPosition) {
+				$(settings.controlPosition).append(controlbox);
 			}
 			else {
 				$(self).append(controlbox);
@@ -108,12 +102,12 @@
 			 *	
 			 *
 			 */
-			controls = $('<ul class="controls"><li><a class="play" href="#">'+settings.controlsText[1]+'</a></li><li><a class="mute" href="#">'+settings.controlsText[2]+'</a></li></ul>');		
+			controls = $('<ul class="controls"><li><a class="play" href="#">'+settings.controlText[1]+'</a></li><li><a class="mute" href="#">'+settings.controlText[2]+'</a></li></ul>');		
 			/*
 			 *	
 			 *
 			 */
-			if (settings.preloader) {
+			if (settings.preloadHtml) {
 				$.fn.videobackground.methods.preload();
 				$('video', self).bind('canplaythrough', function() {
 					/*
@@ -123,8 +117,8 @@
 					 */
 					if (settings.autoplay) {		
 							$('video', self).get(0).play();
-							$(this).toggleClass('paused');
-							$(this).text(settings.controlsText[1]);
+							$('.play', controls).toggleClass('paused');
+							$('.play', controls).text(settings.controlText[1]);
 					}
 					$.fn.videobackground.methods.loaded();
 				});
@@ -138,7 +132,10 @@
 		 *
 		 */
 		preload: function() {
-			$(controlbox).append(settings.preloadHTML);
+			$(controlbox).append(settings.preloadHtml);
+			if (settings.preloadCallback) {
+				(settings.preloadCallback).call(this);
+			}
 		},
 		/*
 		 *	
@@ -147,8 +144,19 @@
 		loaded: function() {
 			$(controlbox).html(controls);
 			$.fn.videobackground.methods.loadedEvents();
-			if(settings.loadedCallback) {
+			if (settings.loadedCallback) {
 				(settings.loadedCallback).call(this);
+			}
+		},
+		/*
+		 *	
+		 *
+		 */
+		resizeVideo: function() {
+			var documentHeight = $(document).height();
+			var windowHeight = $(window).height();
+			if (windowHeight >= documentHeight) {
+				$(self).css('height', windowHeight);
 			}
 		},
 		/*
@@ -157,15 +165,11 @@
 		 */
 		loadedEvents: function() {
 			/*
-			 *	
+			 * 
 			 *
 			 */
 			$(window).resize(function() {
-				var documentHeight = $(document).height();
-				var windowHeight = $(window).height();
-				if (windowHeight >= documentHeight) {
-					$(self).css('height', windowHeight);
-				}
+				$.fn.videobackground.methods.resizeVideo();
 			});
 			/*
 			 *	
@@ -176,18 +180,18 @@
 				if ($('video', self).get(0).paused) {
 		    	$('video', self).get(0).play();
 					$(this).toggleClass('paused');
-					$(this).text(settings.controlsText[1]);
+					$(this).text(settings.controlText[1]);
 		    } 
 				else {
 					if ($('video', self).get(0).ended) {
 						$('video', self).get(0).play();
 						$(this).toggleClass('paused');
-						$(this).text(settings.controlsText[1]);
+						$(this).text(settings.controlText[1]);
 					}
 					else {
 			      $('video', self).get(0).pause();
 						$(this).toggleClass('paused');
-						$(this).text(settings.controlsText[0]);
+						$(this).text(settings.controlText[0]);
 					}
 		    }
 			});
@@ -201,13 +205,13 @@
 		    	$('video', self).attr('muted', false);
 					$('video', self).get(0).volume = 1;
 					$(this).toggleClass('muted');
-					$(this).text(settings.controlsText[2]);
+					$(this).text(settings.controlText[2]);
 		    } 
 				else {
 		      $('video', self).attr('muted', true);
 					$('video', self).get(0).volume = 0;
 					$(this).toggleClass('muted');
-					$(this).text(settings.controlsText[3]);
+					$(this).text(settings.controlText[3]);
 		    }
 			});	
 			/*
@@ -219,7 +223,7 @@
 				$('video', self).bind('ended', function(){ 
 					$('video', self).get(0).play();
 					$(this).toggleClass('paused');
-					$(this).text(settings.controlsText[1]);
+					$(this).text(settings.controlText[1]);
 		    });
 			}
 		},
