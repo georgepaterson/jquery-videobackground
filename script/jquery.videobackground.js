@@ -49,8 +49,9 @@
 		controlPosition: null,
 		controlText: ['Play', 'Pause', 'Mute', 'Unmute'],
 		preloadHtml: '',
-		preloadCallback: function(){},
-		loadedCallback: function(){}
+		resize: true,
+		preloadCallback: function() {},
+		loadedCallback: function() {}
 	};
 	$.fn.videobackground.methods = {
 		/*
@@ -59,12 +60,14 @@
 		 */	
 		create: function() {
 			/*
+			 *	If the resize option is set.
 			 *	Set the height of the container to be the height of the document
 			 *	The video can expand in to the space using min-height: 100%;
 			 *
 			 */
-			var documentHeight = $(document).height();
-			$(self).css('height', documentHeight);
+			if (settings.resize) {
+				$.fn.videobackground.methods.resizeVideo();
+			}
 			/*
 			 *	
 			 *
@@ -91,7 +94,7 @@
 			 *	
 			 *
 			 */
-			controlbox = $('<div id="video-background-controls"></div>');
+			controlbox = $('<div class="video-background-controls"></div>');
 			if (settings.controlPosition) {
 				$(settings.controlPosition).append(controlbox);
 			}
@@ -153,10 +156,17 @@
 		 *
 		 */
 		resizeVideo: function() {
+			/*
+			 *
+			 *
+			 */
 			var documentHeight = $(document).height();
 			var windowHeight = $(window).height();
 			if (windowHeight >= documentHeight) {
 				$(self).css('height', windowHeight);
+			}
+			else if (documentHeight > windowHeight) {
+				$(self).css('height', documentHeight);
 			}
 		},
 		/*
@@ -168,9 +178,11 @@
 			 * 
 			 *
 			 */
-			$(window).resize(function() {
-				$.fn.videobackground.methods.resizeVideo();
-			});
+			if (settings.resize) {
+				$(window).resize(function() {
+					$.fn.videobackground.methods.resizeVideo();
+				});
+			}
 			/*
 			 *	
 			 *

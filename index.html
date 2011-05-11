@@ -6,6 +6,9 @@
 		<link href="themes/ui-darkness/jquery-ui-1.8.12.custom.css" rel="stylesheet" media="screen">
 		<link href="jquery.videobackground.css" rel="stylesheet" media="screen">
 		<style>
+			body {
+				margin: 0;
+			}
 			a {
 				color: #FFF;
 			}
@@ -26,7 +29,7 @@
 				min-width:100%;
 				 
 			}
-			#video-background-controls {
+			.video-background-controls {
 				position: absolute;
 				top: 0;
 				left: 850px;
@@ -48,6 +51,7 @@
 		<script src="script/jquery.videobackground.js"></script>
 		<script>
 			$(document).ready(function() {
+				$('body').prepend('<div id="video-background"></div>');
 				$('#video-background').videobackground({
 					videoSource: ['video/dizzy.webm', 
 						'video/dizzy.ogv', 
@@ -58,10 +62,7 @@
 			});
 		</script>
     </head>
-    <body>
-		<div id="video-background">
-			
-		</div>	
+    <body>	
 		<div id="page">
 			<div id="page-group">
 				<div id="header" class="header" role="banner" >
@@ -70,7 +71,7 @@
 				<div id="content">
 					<div id="main" role="main">
 						<h1>jQuery Video Background plugin</h1>
-						<p>Example of the jQuery Video Background plugin. Will place a resizable video in to the background of the page or designated element. Browsers that don't support the HTML5 video element will get an image if a poster image was designated.</p>
+						<p>Example of the jQuery Video Background plugin. Will place a resizable video in to the background of the page or designated element. Browsers that don't support the HTML5 video element will get an image if a poster image was provided.</p>
 						<p>Plugin parameters include:</p>
 						<ul>
 							<li>videoSource:</li>
