@@ -94,7 +94,7 @@
 			 *	
 			 *
 			 */
-			controlbox = $('<div class="video-background-controls"></div>');
+			controlbox = $('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
 			if (settings.controlPosition) {
 				$(settings.controlPosition).append(controlbox);
 			}
@@ -105,7 +105,7 @@
 			 *	
 			 *
 			 */
-			controls = $('<ul class="controls"><li><a class="play" href="#">'+settings.controlText[1]+'</a></li><li><a class="mute" href="#">'+settings.controlText[2]+'</a></li></ul>');		
+			controls = $('<ul class="ui-video-background-controls"><li class="ui-video-background-play"><a class="ui-icon ui-icon-pause" href="#">'+settings.controlText[1]+'</a></li><li class="ui-video-background-mute"><a class="ui-icon ui-icon-volume-on" href="#">'+settings.controlText[2]+'</a></li></ul>');		
 			/*
 			 *	
 			 *
@@ -187,22 +187,22 @@
 			 *	
 			 *
 			 */
-			$('.play', controls).click(function(event) {
+			$('.ui-video-background-play a', controls).click(function(event) {
 				event.preventDefault();
 				if ($('video', self).get(0).paused) {
 		    	$('video', self).get(0).play();
-					$(this).toggleClass('paused');
+					$(this).toggleClass('ui-icon-pause ui-icon-play');
 					$(this).text(settings.controlText[1]);
 		    } 
 				else {
 					if ($('video', self).get(0).ended) {
 						$('video', self).get(0).play();
-						$(this).toggleClass('paused');
+						$(this).toggleClass('ui-icon-pause ui-icon-play');
 						$(this).text(settings.controlText[1]);
 					}
 					else {
 			      $('video', self).get(0).pause();
-						$(this).toggleClass('paused');
+						$(this).toggleClass('ui-icon-pause ui-icon-play');
 						$(this).text(settings.controlText[0]);
 					}
 		    }
@@ -211,18 +211,18 @@
 			 *	
 			 *
 			 */
-			$('.mute', controls).click(function(event) {
+			$('.ui-video-background-mute a', controls).click(function(event) {
 				event.preventDefault();
 				if ($('video', self).attr('muted')) {
 		    	$('video', self).attr('muted', false);
 					$('video', self).get(0).volume = 1;
-					$(this).toggleClass('muted');
+					$(this).toggleClass('ui-icon-volume-on ui-icon-volume-off');
 					$(this).text(settings.controlText[2]);
 		    } 
 				else {
 		      $('video', self).attr('muted', true);
 					$('video', self).get(0).volume = 0;
-					$(this).toggleClass('muted');
+					$(this).toggleClass('ui-icon-volume-on ui-icon-volume-off');
 					$(this).text(settings.controlText[3]);
 		    }
 			});	

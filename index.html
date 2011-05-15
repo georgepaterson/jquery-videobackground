@@ -15,7 +15,7 @@
 			li {
 				list-style: none;
 			}
-			#video-background {
+			.video-background {
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -24,12 +24,12 @@
 				height: 100%;
 				z-index: 0;
 			}
-			#video-background video {
+			.video-background video {
 				min-height: 100%; 
 				min-width:100%;
 				 
 			}
-			.video-background-controls {
+			.ui-video-background {
 				position: absolute;
 				top: 0;
 				left: 850px;
@@ -51,8 +51,8 @@
 		<script src="script/jquery.videobackground.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('body').prepend('<div id="video-background"></div>');
-				$('#video-background').videobackground({
+				$('body').prepend('<div class="video-background"></div>');
+				$('.video-background').videobackground({
 					videoSource: ['video/dizzy.webm', 
 						'video/dizzy.ogv', 
 						'video/dizzy.m4v'], 
