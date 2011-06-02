@@ -166,7 +166,7 @@
 				$(self).css('height', windowHeight);
 			}
 			else if (documentHeight > windowHeight) {
-				$(self).css('height', windowHeight);
+				$(self).css('height', documentHeight);
 			}
 		},
 		/*
