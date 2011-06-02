@@ -45,7 +45,7 @@
 		poster: null,
 		autoplay: true,
 		preload: 'none',
-		loop: true,
+		loop: false,
 		controlPosition: null,
 		controlText: ['Play', 'Pause', 'Mute', 'Unmute'],
 		preloadHtml: '',
@@ -166,7 +166,7 @@
 				$(self).css('height', windowHeight);
 			}
 			else if (documentHeight > windowHeight) {
-				$(self).css('height', documentHeight);
+				$(self).css('height', windowHeight);
 			}
 		},
 		/*
@@ -190,10 +190,10 @@
 			$('.ui-video-background-play a', controls).click(function(event) {
 				event.preventDefault();
 				if ($('video', self).get(0).paused) {
-		    	$('video', self).get(0).play();
+					$('video', self).get(0).play();
 					$(this).toggleClass('ui-icon-pause ui-icon-play');
 					$(this).text(settings.controlText[1]);
-		    } 
+				} 
 				else {
 					if ($('video', self).get(0).ended) {
 						$('video', self).get(0).play();
@@ -201,11 +201,11 @@
 						$(this).text(settings.controlText[1]);
 					}
 					else {
-			      $('video', self).get(0).pause();
-						$(this).toggleClass('ui-icon-pause ui-icon-play');
-						$(this).text(settings.controlText[0]);
+					$('video', self).get(0).pause();
+					$(this).toggleClass('ui-icon-pause ui-icon-play');
+					$(this).text(settings.controlText[0]);
 					}
-		    }
+				}
 			});
 			/*
 			 *	
@@ -214,17 +214,17 @@
 			$('.ui-video-background-mute a', controls).click(function(event) {
 				event.preventDefault();
 				if ($('video', self).attr('muted')) {
-		    	$('video', self).attr('muted', false);
+					$('video', self).attr('muted', false);
 					$('video', self).get(0).volume = 1;
 					$(this).toggleClass('ui-icon-volume-on ui-icon-volume-off');
 					$(this).text(settings.controlText[2]);
-		    } 
+				} 
 				else {
-		      $('video', self).attr('muted', true);
+					$('video', self).attr('muted', true);
 					$('video', self).get(0).volume = 0;
 					$(this).toggleClass('ui-icon-volume-on ui-icon-volume-off');
 					$(this).text(settings.controlText[3]);
-		    }
+				}
 			});	
 			/*
 			 * Firefox doesn't currently use the loop attribute.
@@ -236,7 +236,7 @@
 					$('video', self).get(0).play();
 					$(this).toggleClass('paused');
 					$(this).text(settings.controlText[1]);
-		    });
+				});
 			}
 		},
 		/*

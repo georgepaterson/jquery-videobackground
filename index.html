@@ -8,6 +8,7 @@
 		<style>
 			body {
 				margin: 0;
+				font-family: arial, helvetica, sans-serif;
 			}
 			a {
 				color: #FFF;
@@ -31,8 +32,15 @@
 			}
 			.ui-video-background {
 				position: absolute;
-				top: 0;
+				top: 30px;
 				left: 850px;
+			}
+			.ui-video-background-controls {
+				margin: 0;
+				padding: 0 10px;
+			}
+			.ui-video-background-controls li {
+				float: left;
 			}
 			#page {
 				position: relative; 
@@ -53,10 +61,11 @@
 			$(document).ready(function() {
 				$('body').prepend('<div class="video-background"></div>');
 				$('.video-background').videobackground({
-					videoSource: ['video/dizzy.webm', 
-						'video/dizzy.ogv', 
-						'video/dizzy.m4v'], 
+					videoSource: ['video/big-buck-bunny.webm', 
+						'video/big-buck-bunny.ogv', 
+						'video/big-buck-bunny.m4v'], 
 					controlPosition: '#main',
+					poster: 'video/big-buck-bunny.jpg',
 					preloadHtml: '<p>Loading video</p><ul><li><a href="#">Skip video</a></li></ul>'
 				});
 			});
@@ -85,7 +94,7 @@
 							<li>preloadCallback:</li>
 							<li>loadedCallback:</li>
 						</ul>
-						<p>Videos from <a href="http://html5demos.com/">http://html5demos.com/</a>.</p>
+						<p>Videos from <a href="http://www.bigbuckbunny.org/">http://www.bigbuckbunny.org/</a>.</p>
 					</div>
 					<div id="aside" class="aside" role="complementary">
 					</div>
