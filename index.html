@@ -67,8 +67,7 @@
 						'video/big-buck-bunny.ogv', 
 						'video/big-buck-bunny.m4v'], 
 					controlPosition: '#main',
-					poster: 'video/big-buck-bunny.jpg',
-					preloadHtml: '<p>Loading video</p><ul><li><a href="#">Skip video</a></li></ul>'
+					poster: 'video/big-buck-bunny.jpg'
 				});
 			});
 		</script>
@@ -85,18 +84,26 @@
 						<p>Example of the jQuery Video Background plugin. Will place a resizable video in to the background of the page or designated element. Browsers that don't support the HTML5 video element will get an image if a poster image was provided.</p>
 						<p>Plugin parameters include:</p>
 						<ul>
-							<li>videoSource:</li>
-							<li>poster:</li>
-							<li>autoplay:</li>
-							<li>preload:</li>
-							<li>loop:</li>
-							<li>controlPosition:</li>
-							<li>controlText:</li>
-							<li>preloadHtml:</li>
-							<li>preloadCallback:</li>
-							<li>loadedCallback:</li>
+							<li>videoSource: An array of possible video source URL's. Separate video source attributes with be generated per instance. No default.</li>
+							<li>poster: The URL string of the image used for the video poster attribute. No default.</li>
+							<li>autoplay: Video autoplay attribute boolean. Default is true.</li>
+							<li>preload: Video prelod attribute string. Default is none.</li>
+							<li>loop: Video loop attribute boolean. Default is false.</li>
+							<li>controlPosition: Position of the video controls, will append the controls to choose DOM element. Default is null.  If null will append controls to the element the video background has been applied to.</li>
+							<li>controlText: An array of text options for the video control elements.
+								<ul>
+									<li>Array position zero: Default 'Play'.</li>
+									<li>Array position one: Default 'Pause'.</li>
+									<li>Array position two: Default 'Mute'.</li>
+									<li>Array position three: Default 'Unmute'.</li>
+								</ul>
+							</li>
+							<li>resize: Boolean which will trigger the video background to resize to match the browser height. Set to false is video background is used on another element. Default is true.</li>
+							<li>preloadHtml: If required, a user controlled HTML string can be injected in to the control area of the page while the video is preloading. It will be over written by the video controls when the video is ready to play.</li>
+							<li>preloadCallback: Allows a function to be triggered when the video preload is initiated.</li>
+							<li>loadedCallback: Allows a function to be triggered when the video is loaded.</li>
 						</ul>
-						<p>Videos from <a href="http://www.bigbuckbunny.org/">http://www.bigbuckbunny.org/</a>.</p>
+						<p>Video trailer from <a href="http://www.bigbuckbunny.org/">http://www.bigbuckbunny.org/</a>. An open source <a href="#">Blender</a> project.</p>
 					</div>
 					<div id="aside" class="aside" role="complementary">
 					</div>
