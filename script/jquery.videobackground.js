@@ -48,8 +48,8 @@
 		loop: false,
 		controlPosition: null,
 		controlText: ['Play', 'Pause', 'Mute', 'Unmute'],
-		preloadHtml: '',
 		resize: true,
+		preloadHtml: '',
 		preloadCallback: function() {},
 		loadedCallback: function() {}
 	};
@@ -69,7 +69,7 @@
 				$.fn.videobackground.methods.resizeVideo();
 			}
 			/*
-			 *	
+			 *	Complie the different HTML5 video attributes.	
 			 *
 			 */
 			var compiledSource = '',
@@ -102,7 +102,7 @@
 				$(self).append(controlbox);
 			}
 			/*
-			 *	
+			 *	HTML string for the video controls.
 			 *
 			 */
 			controls = $('<ul class="ui-video-background-controls"><li class="ui-video-background-play"><a class="ui-icon ui-icon-pause" href="#">'+settings.controlText[1]+'</a></li><li class="ui-video-background-mute"><a class="ui-icon ui-icon-volume-on" href="#">'+settings.controlText[2]+'</a></li></ul>');		
@@ -110,7 +110,7 @@
 			 *	
 			 *
 			 */
-			if (settings.preloadHtml) {
+			if (settings.preloadHtml || settings.preloadCallback) {
 				$.fn.videobackground.methods.preload();
 				$('video', self).bind('canplaythrough', function() {
 					/*
@@ -120,8 +120,6 @@
 					 */
 					if (settings.autoplay) {		
 							$('video', self).get(0).play();
-							$('.play', controls).toggleClass('paused');
-							$('.play', controls).text(settings.controlText[1]);
 					}
 					$.fn.videobackground.methods.loaded();
 				});
@@ -152,14 +150,10 @@
 			}
 		},
 		/*
-		 *	
+		 *	Will resize the video height based on either the highest window or document	height.
 		 *
 		 */
 		resizeVideo: function() {
-			/*
-			 *
-			 *
-			 */
 			var documentHeight = $(document).height(),
 				windowHeight = $(window).height();
 			if (windowHeight >= documentHeight) {
@@ -175,7 +169,7 @@
 		 */
 		loadedEvents: function() {
 			/*
-			 * 
+			 * Will trigger the resize method based on the browser being resized.
 			 *
 			 */
 			if (settings.resize) {
