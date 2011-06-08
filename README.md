@@ -19,3 +19,7 @@ Plugin parameters include:
 *	loadedCallback: Allows a function to be triggered when the video is loaded.
 
 Video trailer from <a href="http://www.bigbuckbunny.org/">http://www.bigbuckbunny.org/</a>. An open source <a href="http://www.blender.org/">Blender</a> project.
+
+---
+	
+Please use the [GitHub issue tracker](http://github.com/georgepaterson/jquery-videobackground/issues) for bug reports and feature requests.
