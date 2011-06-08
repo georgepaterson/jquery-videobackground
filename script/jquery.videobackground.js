@@ -50,8 +50,8 @@
 		controlText: ['Play', 'Pause', 'Mute', 'Unmute'],
 		resize: true,
 		preloadHtml: '',
-		preloadCallback: function() {},
-		loadedCallback: function() {}
+		preloadCallback: null,
+		loadedCallback: null
 	};
 	$.fn.videobackground.methods = {
 		/*
@@ -91,7 +91,7 @@
 			}
 			$(self).html('<video '+attributes+'>' + compiledSource + '</video>');
 			/*
-			 *	
+			 * Append the control box either to the supplied element or the video background element.	
 			 *
 			 */
 			controlbox = $('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
@@ -125,7 +125,17 @@
 				});
 			}
 			else {
-				$.fn.videobackground.methods.loaded();
+				$('video', self).bind('canplaythrough', function() {
+					/*
+					 * Chrome doesn't currently using the autoplay attribute.
+					 * Autoplay initiated through JavaScript.
+					 *
+					 */
+					if (settings.autoplay) {		
+							$('video', self).get(0).play();
+					}
+					$.fn.videobackground.methods.loaded();
+				});
 			}
 		},
 		/*
@@ -178,7 +188,7 @@
 				});
 			}
 			/*
-			 *	
+			 *	Play/pause control	
 			 *
 			 */
 			$('.ui-video-background-play a', controls).click(function(event) {
@@ -202,7 +212,7 @@
 				}
 			});
 			/*
-			 *	
+			 *	Mute/unmute control	
 			 *
 			 */
 			$('.ui-video-background-mute a', controls).click(function(event) {
