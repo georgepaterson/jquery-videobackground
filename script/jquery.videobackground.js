@@ -8,7 +8,8 @@
  */
 (function($){
 	/*
-	 * 
+	 * The videobackground plugin will place a resizable HTML5 video in to a designated element.
+	 * This may be used as a background for the document or a specific element.
 	 *
 	 */
 	$.fn.videobackground = function(options) {

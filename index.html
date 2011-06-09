@@ -4,8 +4,12 @@
 		<title>jQuery Video Background plugin</title>
 		<meta charset="utf-8">
 		<link href="themes/ui-darkness/jquery-ui-1.8.12.custom.css" rel="stylesheet" media="screen">
-		<link href="jquery.videobackground.css" rel="stylesheet" media="screen">
+		<link href="themes/jquery.videobackground.css" rel="stylesheet" media="screen">
 		<style>
+			/*
+			 * Page specific styling.
+			 *
+			 */
 			body {
 				margin: 0;
 				font-family: arial, helvetica, sans-serif;
@@ -16,6 +20,11 @@
 			li {
 				list-style: none;
 			}
+			/*
+			 * If developing a full page background the styles from .video-background will be required.
+			 * The classname itself is unimportant.
+			 *
+			 */
 			.video-background {
 				position: absolute;
 				top: 0;
@@ -30,19 +39,6 @@
 				min-width:100%;
 				 
 			}
-			.ui-video-background {
-				position: absolute;
-				top: 30px;
-				left: 840px;
-			}
-			.ui-video-background-controls {
-				margin: 0;
-				padding: 0 10px;
-			}
-			.ui-video-background-controls li {
-				float: left;
-				padding: 10px;
-			}
 			#page {
 				position: relative; 
 				z-index: 1;
@@ -54,7 +50,7 @@
 			}
 			#main {
 				padding: 10px;
-				margin: 10px 0 0;
+				margin: 10px 0;
 			}
 		</style>
 		<script src="external/jquery.js"></script>
@@ -83,7 +79,7 @@
 						<h1>jQuery Video Background plugin</h1>
 						<p>Code available for download on <a href="http://github.com/georgepaterson/jquery-videobackground">Github</a>.</p>
 						<p>Example of the jQuery Video Background plugin. Will place a resizable video in to the background of the page or designated element. Browsers that don't support the HTML5 video element will get an image if a poster image was provided.</p>
-						<p>If the containing element's width and height does not match the aspect ration of the video, the video will not stretch to fill the container but will render based on the largest dimension.</p>
+						<p>If the containing element's width and height does not match the aspect ration of the video, the video will not alter it's aspect ratio but will render based on the largest dimension.</p>
 						<p>Plugin parameters include:</p>
 						<ul>
 							<li>videoSource: An array of possible video source URL's. Separate video source attributes with be generated per instance. No default.</li>
