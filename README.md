@@ -18,7 +18,7 @@ Plugin parameters include:
 *	preloadCallback: Allows a function to be triggered when the video preload is initiated.
 *	loadedCallback: Allows a function to be triggered when the video is loaded.
 
-Video trailer from <a href="http://www.bigbuckbunny.org/">http://www.bigbuckbunny.org/</a>. An open source <a href="http://www.blender.org/">Blender</a> project.
+Video trailer from [http://www.bigbuckbunny.org/](http://www.bigbuckbunny.org/). An open source [http://www.blender.org/](Blender) <a href="http://www.blender.org/">Blender</a> project.
 
 ---
 	
