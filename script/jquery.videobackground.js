@@ -166,13 +166,13 @@
 		 */
 		resizeVideo: function() {
 			var documentHeight = $(document).height(),
-				windowHeight = $(window).height();
+			windowHeight = $(window).height();
 			if (windowHeight >= documentHeight) {
 				$(self).css('height', windowHeight);
 			}
 			else if (documentHeight > windowHeight) {
 				$(self).css('height', documentHeight);
- 			}
+			}
 		},
 		/*
 		 *	Video events.
