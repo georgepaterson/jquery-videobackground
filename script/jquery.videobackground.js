@@ -44,7 +44,7 @@
 			destroy: function () {
 
 			}
-		}
+		};
 		/*
 		 * Private members.
 		 *
@@ -240,7 +240,7 @@
 					});
 				}
 			}
-		}
+		};
 		/*
 		 *	Allow for method calling.
 		 *	If not a method initialise the plugin.
