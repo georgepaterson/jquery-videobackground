@@ -63,7 +63,10 @@
 						'video/big-buck-bunny.webm', 
 						'video/big-buck-bunny.ogv'], 
 					controlPosition: '#main',
-					poster: 'video/big-buck-bunny.jpg'
+					poster: 'video/big-buck-bunny.jpg',
+					loadedCallback: function() {
+						$(this).videobackground('mute');
+					}
 				});
 			});
 		</script>
