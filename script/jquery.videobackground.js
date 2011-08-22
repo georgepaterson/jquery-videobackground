@@ -8,10 +8,13 @@
  */
 (function($){
 	/*
+	 * Public methods accessible through a string declaration equal to the method name.
 	 *
 	 */
 	var methods = {
 		/*
+		 * Default initiating public method.
+		 * It will created the video background, default video controls and initiate associated events. 
 		 *
 		 */
 		init: function (options) {
@@ -29,7 +32,7 @@
 						resize(element);
 					}
 					/*
-					 *	Complie the different HTML5 video attributes.	
+					 *	Compile the different HTML5 video attributes.	
 					 *
 					 */
 					var compiledSource = '';
@@ -69,10 +72,12 @@
 						+ '<a class="ui-icon ui-icon-volume-on" href="#">'+element.settings.controlText[2]+'</a>'
 						+ '</li></ul>');		
 					/*
-					 *	
+					 * Test for HTML or JavaScript function that should be triggered while the video is attempting to load.
+					 * The canplaythrough event signals when when the video can play through to the end without disruption.
+					 * We use this to determine when the video is ready to play.
+					 * When this happens preloaded HTML and JavaSCript should be replaced with loaded HTML and JavaSCript.
 					 *
 					 */
-					
 					if (element.settings.preloadHtml || element.settings.preloadCallback) {
 						preload(element);
 						$('video', element).bind('canplaythrough', function() {
@@ -114,6 +119,11 @@
 			}
 		},
 		/*
+		 * Play public method.
+		 * When attached to a video background it will trigger the associated video to play or pause.
+		 * The event it triggeres is dependant on the existing state of the video.
+		 * This method can be triggered from an event on a external element.
+		 * Requires the video to be loaded first.
 		 *
 		 */
 		play: function (options) {
@@ -124,6 +134,11 @@
 		  });
 		},
 		/*
+		 * Mute public method.
+		 * When attached to a video background it will trigger the associated video to mute or unmute.
+		 * The event it triggeres is dependant on the existing state of the video.
+		 * This method can be triggered from an event on a external element.
+		 * Requires the video to be loaded first.
 		 *
 		 */
 		mute: function (options) {
@@ -134,19 +149,36 @@
 		  });
 		},
 		/*
+		 * Destroy public method.
+		 * Method not ready for use.
 		 *
 		 */
 		destroy: function (options) {
 		  return this.each(function () {
 				var element = $(this);
 				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-				
+				if (document.createElement('video').canPlayType) {	
+				  return this.each(function () {
+						var element = $(this);
+						element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+
+			  	});
+				}
+				else {
+					return this.each(function () {
+						var element = $(this);
+						element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+
+					});
+				}
 				
 		  });
 		}
   };
 	/*
-	 *	
+	 * Resize function.
+	 * Triggered if the boolean setting 'resize' is true.
+	 * It will resize the video background based on a resize event initiated on the browser window.
 	 *
 	 */
 	function resize (element) {
@@ -160,7 +192,8 @@
 		}
 	};
 	/*
-	 *	
+	 * Preload function.
+	 * Allows for HTML and JavaScript designated in settings to be used while	the video is preloading.
 	 *
 	 */
 	function preload (element) {
@@ -170,7 +203,8 @@
 		}
 	};
 	/*
-	 *	
+	 * Loaded function.
+	 * Allows for HTML and JavaScript designated in settings to be used when the video is loaded.
 	 *
 	 */
 	function loaded (element) {
@@ -181,7 +215,8 @@
 		}
 	};
 	/*
-	 *	
+	 * Loaded events function.
+	 * When the video is loaded we have some default HTML and JavaScript to trigger.	
 	 *
 	 */
 	function loadedEvents (element) {
@@ -195,7 +230,7 @@
 			});
 		}
 		/*
-		 *	Play/pause control	
+		 *	Default play/pause control	
 		 *
 		 */
 		$('.ui-video-background-play a', element.controls).click(function(event) {
@@ -203,7 +238,7 @@
 			play(element);
 		});
 		/*
-		 *	Mute/unmute control	
+		 *	Default mute/unmute control	
 		 *
 		 */
 		$('.ui-video-background-mute a', element.controls).click(function(event) {
@@ -224,7 +259,10 @@
 		}
 	};
 	/*
-	 *	
+	 * Play function.
+	 * Can either be called through the default control interface or directly through the public method.
+	 * Will set the video to play or pause depending on existing state.
+	 * Requires the video to be loaded.	
 	 *
 	 */
 	function play (element) {
@@ -247,7 +285,10 @@
 		}
 	};
 	/*
-	 *	
+	 * Mute function.
+	 * Can either be called through the default control interface or directly through the public method.
+	 * Will set the video to mute or unmute depending on existing state.
+	 * Requires the video to be loaded.
 	 *
 	 */
 	function mute (element) {
@@ -265,7 +306,8 @@
 		}
 	};
 	/*
-	 *	
+	 * The video background namespace.
+	 * The gate way for the plugin.	
 	 *
 	 */
 	$.fn.videobackground = function (method) {
