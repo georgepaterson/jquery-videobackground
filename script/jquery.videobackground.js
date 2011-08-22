@@ -150,7 +150,8 @@
 		},
 		/*
 		 * Destroy public method.
-		 * Method not ready for use.
+		 * Will unbind event listeners and remove HTML created by the plugin.
+		 * If the element has a unique controlPosition this will have to be declared.
 		 *
 		 */
 		destroy: function (options) {
@@ -158,21 +159,29 @@
 				var element = $(this);
 				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
 				if (document.createElement('video').canPlayType) {	
-				  return this.each(function () {
-						var element = $(this);
-						element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-
-			  	});
+					$('video', element).unbind('ended');
+					if (element.settings.controlPosition) {
+						$('.ui-video-background-mute a', element.settings.controlPosition).unbind('click');
+						$('.ui-video-background-play a', element.settings.controlPosition).unbind('click');
+					}
+					else {
+						$('.ui-video-background-mute a', element).unbind('click');
+						$('.ui-video-background-play a', element).unbind('click');
+					}
+					$(window).unbind('resize');
+					$('video', element).bind('canplaythrough');
+					if (element.settings.controlPosition) {
+						$('.ui-video-background', element.settings.controlPosition).remove();
+					}
+					else {
+						$('.ui-video-background', element).remove();
+					}
+					$('video', element).remove();
 				}
 				else {
-					return this.each(function () {
-						var element = $(this);
-						element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-						if (element.settings.poster) {
-							var image = $('<img class="ui-video-background-poster" src="'+ element.settings.poster +'">');
-							$('.ui-video-background-poster', element).remove();
-						}
-					});
+					if (element.settings.poster) {
+						$('.ui-video-background-poster', element).remove();
+					}
 				}
 		  });
 		}
@@ -199,7 +208,7 @@
 	 *
 	 */
 	function preload (element) {
-		$(controlbox).append(preloadHtml);
+		$(element.controlbox).append(preloadHtml);
 		if (preloadCallback) {
 			(preloadCallback).call(element);
 		}
@@ -227,7 +236,7 @@
 		 *
 		 */
 		if (element.settings.resize) {
-			$(window).resize(function () {
+			$(window).bind('resize', function () {
 				resize(element);
 			});
 		}
@@ -235,7 +244,7 @@
 		 *	Default play/pause control	
 		 *
 		 */
-		$('.ui-video-background-play a', element.controls).click(function(event) {
+		$('.ui-video-background-play a', element.controls).bind('click', function(event) {
 			event.preventDefault();
 			play(element);
 		});
@@ -243,7 +252,7 @@
 		 *	Default mute/unmute control	
 		 *
 		 */
-		$('.ui-video-background-mute a', element.controls).click(function(event) {
+		$('.ui-video-background-mute a', element.controls).bind('click', function(event) {
 			event.preventDefault();
 			mute(element);
 		});
