@@ -112,7 +112,7 @@
 					var element = $(this);
 					element.settings = $.extend({}, $.fn.videobackground.defaults, options);
 					if (element.settings.poster) {
-						var image = $('<img src="'+ element.settings.poster +'">');
+						var image = $('<img class="ui-video-background-poster" src="'+ element.settings.poster +'">');
 						element.append(image);
 					}
 				});
@@ -168,10 +168,12 @@
 					return this.each(function () {
 						var element = $(this);
 						element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-
+						if (element.settings.poster) {
+							var image = $('<img class="ui-video-background-poster" src="'+ element.settings.poster +'">');
+							$('.ui-video-background-poster', element).remove();
+						}
 					});
 				}
-				
 		  });
 		}
   };
