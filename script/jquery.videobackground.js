@@ -105,7 +105,7 @@
 							loaded(element);
 						});
 					}
-		  	});
+				});
 			}
 			else {
 				return this.each(function () {
@@ -201,7 +201,7 @@
 		else if (documentHeight > windowHeight) {
 			$(element).css('height', documentHeight);
 		}
-	};
+	}
 	/*
 	 * Preload function.
 	 * Allows for HTML and JavaScript designated in settings to be used while	the video is preloading.
@@ -212,7 +212,7 @@
 		if (preloadCallback) {
 			(preloadCallback).call(element);
 		}
-	};
+	}
 	/*
 	 * Loaded function.
 	 * Allows for HTML and JavaScript designated in settings to be used when the video is loaded.
@@ -224,7 +224,7 @@
 		if (element.settings.loadedCallback) {
 			(element.settings.loadedCallback).call(element);
 		}
-	};
+	}
 	/*
 	 * Loaded events function.
 	 * When the video is loaded we have some default HTML and JavaScript to trigger.	
@@ -268,7 +268,7 @@
 				$(this).text(element.settings.controlText[1]);
 			});
 		}
-	};
+	}
 	/*
 	 * Play function.
 	 * Can either be called through the default control interface or directly through the public method.
@@ -294,7 +294,7 @@
 				$('.ui-video-background-play a', element.controls).text(element.settings.controlText[0]);
 			}
 		}
-	};
+	}
 	/*
 	 * Mute function.
 	 * Can either be called through the default control interface or directly through the public method.
@@ -315,7 +315,7 @@
 			$('.ui-video-background-mute a', element.controls).toggleClass('ui-icon-volume-on ui-icon-volume-off');
 			$('.ui-video-background-mute a', element.controls).text(element.settings.controlText[3]);
 		}
-	};
+	}
 	/*
 	 * The video background namespace.
 	 * The gate way for the plugin.	
