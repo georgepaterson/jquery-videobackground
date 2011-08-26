@@ -4,7 +4,14 @@ Example of the jQuery Video Background plugin. Will place a resizable video in t
 
 If the containing element's width and height does not match the aspect ration of the video, the video will not stretch to fill the container but will render based on the largest dimension.
 
-Plugin parameters include:
+Public methods:
+
+* play: Trigger a play/pause event on the chosen video background. Will play if the video is already paused. Will pause if the video is already playing. 
+* mute: Trigger a mute/unmute event on the chosen video background. Will unmute if the video is already muted. Will mute if the video is unmuted.
+* destroy: Will destroy the chosen video background. Will unbind events bound when the video background is initialised. Will remove HTML attached to the DOM by the plugin. If a controlPosition parameter is set this will also have to be set to safely remove all HTML elements from the DOM.
+* resize: When invoked this will resize the video background to the height of the document or window. The video background height affects the height of the document which affects the video background's ability to negatively resize.
+
+Plugin parameters:
 
 *	videoSource: An array of possible video source URL's. Separate video source attributes with be generated per instance. No default.
 *	poster: The URL string of the image used for the video poster attribute. No default.

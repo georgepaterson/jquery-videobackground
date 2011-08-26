@@ -149,6 +149,20 @@
 		  });
 		},
 		/*
+		 * Resize public method.
+		 * When invoked will resize the video background to the height of the document or window.
+		 * The video background height affects the height of the document.
+		 * Affecting the video background's ability to negatively resize.  
+		 *
+		 */
+		resize: function (options) {
+		  return this.each(function () {
+				var element = $(this);
+				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+				resize(element);
+		  });
+		},
+		/*
 		 * Destroy public method.
 		 * Will unbind event listeners and remove HTML created by the plugin.
 		 * If the element has a unique controlPosition this will have to be declared.
