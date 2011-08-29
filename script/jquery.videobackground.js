@@ -80,27 +80,27 @@
 					 */
 					if (element.settings.preloadHtml || element.settings.preloadCallback) {
 						preload(element);
-						$('video', element).bind('canplaythrough', function() {
+						element.find('video').bind('canplaythrough', function() {
 							/*
 							 * Chrome doesn't currently using the autoplay attribute.
 							 * Autoplay initiated through JavaScript.
 							 *
 							 */
 							if (element.settings.autoplay) {		
-									$('video', element).get(0).play();
+									element.find('video').get(0).play();
 							}
 							loaded(element);
 						});
 					}
 					else {
-						$('video', element).bind('canplaythrough', function() {
+						element.find('video').bind('canplaythrough', function() {
 							/*
 							 * Chrome doesn't currently using the autoplay attribute.
 							 * Autoplay initiated through JavaScript.
 							 *
 							 */
 							if (element.settings.autoplay) {		
-									$('video', element).get(0).play();
+									element.find('video').get(0).play();
 							}
 							loaded(element);
 						});
@@ -173,28 +173,28 @@
 				var element = $(this);
 				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
 				if (document.createElement('video').canPlayType) {	
-					$('video', element).unbind('ended');
+					element.find('video').unbind('ended');
 					if (element.settings.controlPosition) {
-						$('.ui-video-background-mute a', element.settings.controlPosition).unbind('click');
-						$('.ui-video-background-play a', element.settings.controlPosition).unbind('click');
+						$(element.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
+						$(element.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
 					}
 					else {
-						$('.ui-video-background-mute a', element).unbind('click');
-						$('.ui-video-background-play a', element).unbind('click');
+						element.find('.ui-video-background-mute a').unbind('click');
+						element.find('.ui-video-background-play a').unbind('click');
 					}
 					$(window).unbind('resize');
-					$('video', element).bind('canplaythrough');
+					element.find('video').unbind('canplaythrough');
 					if (element.settings.controlPosition) {
-						$('.ui-video-background', element.settings.controlPosition).remove();
+						$(element.settings.controlPosition).find('.ui-video-background').remove();
 					}
 					else {
-						$('.ui-video-background', element).remove();
+						element.find('.ui-video-background').remove();
 					}
 					$('video', element).remove();
 				}
 				else {
 					if (element.settings.poster) {
-						$('.ui-video-background-poster', element).remove();
+						element.find('.ui-video-background-poster').remove();
 					}
 				}
 		  });
@@ -258,7 +258,7 @@
 		 *	Default play/pause control	
 		 *
 		 */
-		$('.ui-video-background-play a', element.controls).bind('click', function(event) {
+		element.controls.find('.ui-video-background-play a').bind('click', function(event) {
 			event.preventDefault();
 			play(element);
 		});
@@ -266,7 +266,7 @@
 		 *	Default mute/unmute control	
 		 *
 		 */
-		$('.ui-video-background-mute a', element.controls).bind('click', function(event) {
+		element.controls.find('.ui-video-background-mute a').bind('click', function(event) {
 			event.preventDefault();
 			mute(element);
 		});
@@ -276,10 +276,9 @@
 		 *
 		 */	
 		if (element.settings.loop) {		
-			$('video', element).bind('ended', function(){ 
-				$('video', element).get(0).play();
-				$(this).toggleClass('paused');
-				$(this).text(element.settings.controlText[1]);
+			element.find('video').bind('ended', function(){ 
+				$(this).get(0).play();
+				$(this).toggleClass('paused').text(element.settings.controlText[1]);
 			});
 		}
 	}
@@ -291,21 +290,25 @@
 	 *
 	 */
 	function play (element) {
-		if ($('video', element).get(0).paused) {
-			$('video', element).get(0).play();
-			$('.ui-video-background-play a', element.controls).toggleClass('ui-icon-pause ui-icon-play');
-			$('.ui-video-background-play a', element.controls).text(element.settings.controlText[1]);
+		var video = element.find('video').get(0);
+		if (element.settings.controlPosition) {
+			var controller = $(element.settings.controlPosition).find('.ui-video-background-play a');
+		}
+		else {
+			var controller = element.find('.ui-video-background-play a');
+		}
+		if (video.paused) {
+			video.play();
+			controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[1]);
 		} 
 		else {
-			if ($('video', element).get(0).ended) {
-				$('video', element).get(0).play();
-				$('.ui-video-background-play a', element.controls).toggleClass('ui-icon-pause ui-icon-play');
-				$('.ui-video-background-play a', element.controls).text(element.settings.controlText[1]);
+			if (video.ended) {
+				video.play();
+				controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[1]);
 			}
 			else {
-				$('video', element).get(0).pause();
-				$('.ui-video-background-play a', element.controls).toggleClass('ui-icon-pause ui-icon-play');
-				$('.ui-video-background-play a', element.controls).text(element.settings.controlText[0]);
+				video.pause();
+				controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[0]);
 			}
 		}
 	}
@@ -317,17 +320,20 @@
 	 *
 	 */
 	function mute (element) {
-		if ($('video', element).get(0).volume === 0) {
-			$('video', element).attr('muted', false);
-			$('video', element).get(0).volume = 1;
-			$('.ui-video-background-mute a', element.controls).toggleClass('ui-icon-volume-on ui-icon-volume-off');
-			$('.ui-video-background-mute a', element.controls).text(element.settings.controlText[2]);
+		var video = element.find('video').get(0);
+		if (element.settings.controlPosition) {
+			var controller = $(element.settings.controlPosition).find('.ui-video-background-mute a');
+		}
+		else {
+			var controller = element.find('.ui-video-background-mute a');
+		}
+		if (video.volume === 0) {
+			video.volume = 1;
+			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(element.settings.controlText[2]);
 		} 
 		else {
-			$('video', element).attr('muted', true);
-			$('video', element).get(0).volume = 0;
-			$('.ui-video-background-mute a', element.controls).toggleClass('ui-icon-volume-on ui-icon-volume-off');
-			$('.ui-video-background-mute a', element.controls).text(element.settings.controlText[3]);
+			video.volume = 0;
+			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(element.settings.controlText[3]);
 		}
 	}
 	/*
