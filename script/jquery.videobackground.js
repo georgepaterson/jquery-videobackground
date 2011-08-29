@@ -123,6 +123,7 @@
 		 * When attached to a video background it will trigger the associated video to play or pause.
 		 * The event it triggeres is dependant on the existing state of the video.
 		 * This method can be triggered from an event on a external element.
+		 * If the element has a unique controlPosition this will have to be declared.
 		 * Requires the video to be loaded first.
 		 *
 		 */
@@ -138,6 +139,7 @@
 		 * When attached to a video background it will trigger the associated video to mute or unmute.
 		 * The event it triggeres is dependant on the existing state of the video.
 		 * This method can be triggered from an event on a external element.
+		 * If the element has a unique controlPosition this will have to be declared.
 		 * Requires the video to be loaded first.
 		 *
 		 */
