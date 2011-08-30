@@ -292,12 +292,13 @@
 	 *
 	 */
 	function play (element) {
-		var video = element.find('video').get(0);
+		var video = element.find('video').get(0),
+			controller;
 		if (element.settings.controlPosition) {
-			var controller = $(element.settings.controlPosition).find('.ui-video-background-play a');
+			controller = $(element.settings.controlPosition).find('.ui-video-background-play a');
 		}
 		else {
-			var controller = element.find('.ui-video-background-play a');
+			controller = element.find('.ui-video-background-play a');
 		}
 		if (video.paused) {
 			video.play();
@@ -322,12 +323,13 @@
 	 *
 	 */
 	function mute (element) {
-		var video = element.find('video').get(0);
+		var video = element.find('video').get(0),
+			controller;
 		if (element.settings.controlPosition) {
-			var controller = $(element.settings.controlPosition).find('.ui-video-background-mute a');
+			controller = $(element.settings.controlPosition).find('.ui-video-background-mute a');
 		}
 		else {
-			var controller = element.find('.ui-video-background-mute a');
+			controller = element.find('.ui-video-background-mute a');
 		}
 		if (video.volume === 0) {
 			video.volume = 1;
