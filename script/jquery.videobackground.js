@@ -6,7 +6,8 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  */
-(function($){
+var $j = jQuery.noConflict(); 
+(function($j){
 	/*
 	 * Public methods accessible through a string declaration equal to the method name.
 	 *
@@ -20,8 +21,8 @@
 		init: function (options) {
 			if (document.createElement('video').canPlayType) {	
 			  return this.each(function () {
-					var element = $(this);
-					element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+					var element = $j(this);
+					element.settings = $j.extend({}, $j.fn.videobackground.defaults, options);
 					/*
 					 *	If the resize option is set.
 					 *	Set the height of the container to be the height of the document
@@ -36,7 +37,7 @@
 					 *
 					 */
 					var compiledSource = '';
-					$.each(element.settings.videoSource, function(index, value) { 
+					$j.each(element.settings.videoSource, function(index, value) { 
 					  compiledSource = compiledSource + '<source src="' + value + '">';
 					});
 					var attributes = '';
@@ -50,23 +51,23 @@
 					if (element.settings.loop) {
 						attributes = attributes + ' loop="loop"';
 					}
-					$(element).html('<video '+attributes+'>' + compiledSource + '</video>');
+					$j(element).html('<video '+attributes+'>' + compiledSource + '</video>');
 					/*
 					 * Append the control box either to the supplied element or the video background element.	
 					 *
 					 */
-					element.controlbox = $('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
+					element.controlbox = $j('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
 					if (element.settings.controlPosition) {
-						$(element.settings.controlPosition).append(element.controlbox);
+						$j(element.settings.controlPosition).append(element.controlbox);
 					}
 					else {
-						$(element).append(element.controlbox);
+						$j(element).append(element.controlbox);
 					}
 					/*
 					 *	HTML string for the video controls.
 					 *
 					 */
-					element.controls = $('<ul class="ui-video-background-controls"><li class="ui-video-background-play">'
+					element.controls = $j('<ul class="ui-video-background-controls"><li class="ui-video-background-play">'
 						+ '<a class="ui-icon ui-icon-pause" href="#">'+element.settings.controlText[1]+'</a>'
 						+ '</li><li class="ui-video-background-mute">'
 						+ '<a class="ui-icon ui-icon-volume-on" href="#">'+element.settings.controlText[2]+'</a>'
@@ -109,10 +110,10 @@
 			}
 			else {
 				return this.each(function () {
-					var element = $(this);
-					element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+					var element = $j(this);
+					element.settings = $j.extend({}, $j.fn.videobackground.defaults, options);
 					if (element.settings.poster) {
-						var image = $('<img class="ui-video-background-poster" src="'+ element.settings.poster +'">');
+						var image = $j('<img class="ui-video-background-poster" src="'+ element.settings.poster +'">');
 						element.append(image);
 					}
 				});
@@ -129,8 +130,8 @@
 		 */
 		play: function (options) {
 		  return this.each(function () {
-				var element = $(this);
-				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+				var element = $j(this);
+				element.settings = $j.extend({}, $j.fn.videobackground.defaults, options);
 				play(element);
 		  });
 		},
@@ -145,8 +146,8 @@
 		 */
 		mute: function (options) {
 		  return this.each(function () {
-				var element = $(this);
-				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+				var element = $j(this);
+				element.settings = $j.extend({}, $j.fn.videobackground.defaults, options);
 				mute(element);
 		  });
 		},
@@ -159,8 +160,8 @@
 		 */
 		resize: function (options) {
 		  return this.each(function () {
-				var element = $(this);
-				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+				var element = $j(this);
+				element.settings = $j.extend({}, $j.fn.videobackground.defaults, options);
 				resize(element);
 		  });
 		},
@@ -172,27 +173,27 @@
 		 */
 		destroy: function (options) {
 		  return this.each(function () {
-				var element = $(this);
-				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
+				var element = $j(this);
+				element.settings = $j.extend({}, $j.fn.videobackground.defaults, options);
 				if (document.createElement('video').canPlayType) {	
 					element.find('video').unbind('ended');
 					if (element.settings.controlPosition) {
-						$(element.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
-						$(element.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
+						$j(element.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
+						$j(element.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
 					}
 					else {
 						element.find('.ui-video-background-mute a').unbind('click');
 						element.find('.ui-video-background-play a').unbind('click');
 					}
-					$(window).unbind('resize');
+					$j(window).unbind('resize');
 					element.find('video').unbind('canplaythrough');
 					if (element.settings.controlPosition) {
-						$(element.settings.controlPosition).find('.ui-video-background').remove();
+						$j(element.settings.controlPosition).find('.ui-video-background').remove();
 					}
 					else {
 						element.find('.ui-video-background').remove();
 					}
-					$('video', element).remove();
+					$j('video', element).remove();
 				}
 				else {
 					if (element.settings.poster) {
@@ -209,13 +210,13 @@
 	 *
 	 */
 	function resize (element) {
-		var documentHeight = $(document).height(),
-			windowHeight = $(window).height();
+		var documentHeight = $j(document).height(),
+			windowHeight = $j(window).height();
 		if (windowHeight >= documentHeight) {
-			$(element).css('height', windowHeight);
+			$j(element).css('height', windowHeight);
 		}
 		else if (documentHeight > windowHeight) {
-			$(element).css('height', documentHeight);
+			$j(element).css('height', documentHeight);
 		}
 	}
 	/*
@@ -224,7 +225,7 @@
 	 *
 	 */
 	function preload (element) {
-		$(element.controlbox).append(preloadHtml);
+		$j(element.controlbox).append(preloadHtml);
 		if (preloadCallback) {
 			(preloadCallback).call(element);
 		}
@@ -235,7 +236,7 @@
 	 *
 	 */
 	function loaded (element) {
-		$(element.controlbox).html(element.controls);
+		$j(element.controlbox).html(element.controls);
 		loadedEvents(element);
 		if (element.settings.loadedCallback) {
 			(element.settings.loadedCallback).call(element);
@@ -252,7 +253,7 @@
 		 *
 		 */
 		if (element.settings.resize) {
-			$(window).bind('resize', function () {
+			$j(window).bind('resize', function () {
 				resize(element);
 			});
 		}
@@ -279,8 +280,8 @@
 		 */	
 		if (element.settings.loop) {		
 			element.find('video').bind('ended', function(){ 
-				$(this).get(0).play();
-				$(this).toggleClass('paused').text(element.settings.controlText[1]);
+				$j(this).get(0).play();
+				$j(this).toggleClass('paused').text(element.settings.controlText[1]);
 			});
 		}
 	}
@@ -295,7 +296,7 @@
 		var video = element.find('video').get(0),
 			controller;
 		if (element.settings.controlPosition) {
-			controller = $(element.settings.controlPosition).find('.ui-video-background-play a');
+			controller = $j(element.settings.controlPosition).find('.ui-video-background-play a');
 		}
 		else {
 			controller = element.find('.ui-video-background-play a');
@@ -326,7 +327,7 @@
 		var video = element.find('video').get(0),
 			controller;
 		if (element.settings.controlPosition) {
-			controller = $(element.settings.controlPosition).find('.ui-video-background-mute a');
+			controller = $j(element.settings.controlPosition).find('.ui-video-background-mute a');
 		}
 		else {
 			controller = element.find('.ui-video-background-mute a');
@@ -345,7 +346,7 @@
 	 * The gate way for the plugin.	
 	 *
 	 */
-	$.fn.videobackground = function (method) {
+	$j.fn.videobackground = function (method) {
 		/*
 		 *	Allow for method calling.
 		 *	If not a method initialise the plugin.
@@ -361,14 +362,14 @@
       return methods.init.apply(this, arguments);
     } 
 		else {
-      $.error('Method ' +  method + ' does not exist on jQuery.videobackground');
+      $j.error('Method ' +  method + ' does not exist on jQuery.videobackground');
     }
 	};
 	/*
 	 *	Default options, can be extend by options passed to the function.
 	 *
 	 */
-	$.fn.videobackground.defaults = {
+	$j.fn.videobackground.defaults = {
 		videoSource: [],
 		poster: null,
 		autoplay: true,
