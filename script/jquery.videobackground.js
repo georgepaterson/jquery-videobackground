@@ -199,9 +199,9 @@
 						element.find('.ui-video-background-poster').remove();
 					}
 				}
-		  });
+			});
 		}
-  };
+	};
 	/*
 	 * Resize function.
 	 * Triggered if the boolean setting 'resize' is true.
@@ -354,15 +354,13 @@
 		if (!this.length) {
 			return this;
 		}
-    if (methods[method]) {
-      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-    } 
-		else if (typeof method === 'object' || !method) {
-      return methods.init.apply(this, arguments);
-    } 
-		else {
-      $.error('Method ' +  method + ' does not exist on jQuery.videobackground');
-    }
+	    if (methods[method]) {
+			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+	    } else if (typeof method === 'object' || !method) {
+			return methods.init.apply(this, arguments);
+	    } else {
+			$.error('Method ' +  method + ' does not exist on jQuery.videobackground');
+    	}
 	};
 	/*
 	 *	Default options, can be extend by options passed to the function.
