@@ -6,44 +6,83 @@
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  */
-(function($){
+(function ($, document, window) {
 	/*
 	 * Resize function.
 	 * Triggered if the boolean setting 'resize' is true.
 	 * It will resize the video background based on a resize event initiated on the browser window.
 	 *
 	 */
-	function resize (that) {
+	"use strict";
+	function resize(that) {
 		var documentHeight = $(document).height(),
 			windowHeight = $(window).height();
 		if (windowHeight >= documentHeight) {
 			$(that).css('height', windowHeight);
-		}
-		else if (documentHeight > windowHeight) {
+		} else {
 			$(that).css('height', documentHeight);
 		}
 	}
 	/*
 	 * Preload function.
-	 * Allows for HTML and JavaScript designated in settings to be used while	the video is preloading.
+	 * Allows for HTML and JavaScript designated in settings to be used while the video is preloading.
 	 *
 	 */
-	function preload (that) {
-		$(that.controlbox).append(preloadHtml);
-		if (preloadCallback) {
-			(preloadCallback).call(that);
+	function preload(that) {
+		$(that.controlbox).append(that.settings.preloadHtml);
+		if (that.settings.preloadCallback) {
+			(that.settings.preloadCallback).call(that);
 		}
 	}
 	/*
-	 * Loaded function.
-	 * Allows for HTML and JavaScript designated in settings to be used when the video is loaded.
+	 * Play function.
+	 * Can either be called through the default control interface or directly through the public method.
+	 * Will set the video to play or pause depending on existing state.
+	 * Requires the video to be loaded.	
 	 *
 	 */
-	function loaded (that) {
-		$(that.controlbox).html(that.controls);
-		loadedEvents(that);
-		if (that.settings.loadedCallback) {
-			(that.settings.loadedCallback).call(that);
+	function play(that) {
+		var video = that.find('video').get(0),
+			controller;
+		if (that.settings.controlPosition) {
+			controller = $(that.settings.controlPosition).find('.ui-video-background-play a');
+		} else {
+			controller = that.find('.ui-video-background-play a');
+		}
+		if (video.paused) {
+			video.play();
+			controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[1]);
+		} else {
+			if (video.ended) {
+				video.play();
+				controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[1]);
+			} else {
+				video.pause();
+				controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[0]);
+			}
+		}
+	}
+	/*
+	 * Mute function.
+	 * Can either be called through the default control interface or directly through the public method.
+	 * Will set the video to mute or unmute depending on existing state.
+	 * Requires the video to be loaded.
+	 *
+	 */
+	function mute(that) {
+		var video = that.find('video').get(0),
+			controller;
+		if (that.settings.controlPosition) {
+			controller = $(that.settings.controlPosition).find('.ui-video-background-mute a');
+		} else {
+			controller = that.find('.ui-video-background-mute a');
+		}
+		if (video.volume === 0) {
+			video.volume = 1;
+			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(that.settings.controlText[2]);
+		} else {
+			video.volume = 0;
+			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(that.settings.controlText[3]);
 		}
 	}
 	/*
@@ -51,7 +90,7 @@
 	 * When the video is loaded we have some default HTML and JavaScript to trigger.	
 	 *
 	 */
-	function loadedEvents (that) {
+	function loadedEvents(that) {
 		/*
 		 * Trigger the resize method based if the browser is resized.
 		 *
@@ -65,7 +104,7 @@
 		 *	Default play/pause control	
 		 *
 		 */
-		that.controls.find('.ui-video-background-play a').bind('click', function(event) {
+		that.controls.find('.ui-video-background-play a').bind('click', function (event) {
 			event.preventDefault();
 			play(that);
 		});
@@ -73,7 +112,7 @@
 		 *	Default mute/unmute control	
 		 *
 		 */
-		that.controls.find('.ui-video-background-mute a').bind('click', function(event) {
+		that.controls.find('.ui-video-background-mute a').bind('click', function (event) {
 			event.preventDefault();
 			mute(that);
 		});
@@ -81,68 +120,24 @@
 		 * Firefox doesn't currently use the loop attribute.
 		 * Loop bound to the video ended event.
 		 *
-		 */	
-		if (that.settings.loop) {		
-			that.find('video').bind('ended', function(){ 
+		 */
+		if (that.settings.loop) {
+			that.find('video').bind('ended', function () {
 				$(this).get(0).play();
 				$(this).toggleClass('paused').text(that.settings.controlText[1]);
 			});
 		}
 	}
 	/*
-	 * Play function.
-	 * Can either be called through the default control interface or directly through the public method.
-	 * Will set the video to play or pause depending on existing state.
-	 * Requires the video to be loaded.	
+	 * Loaded function.
+	 * Allows for HTML and JavaScript designated in settings to be used when the video is loaded.
 	 *
 	 */
-	function play (that) {
-		var video = that.find('video').get(0),
-			controller;
-		if (that.settings.controlPosition) {
-			controller = $(that.settings.controlPosition).find('.ui-video-background-play a');
-		}
-		else {
-			controller = that.find('.ui-video-background-play a');
-		}
-		if (video.paused) {
-			video.play();
-			controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[1]);
-		} 
-		else {
-			if (video.ended) {
-				video.play();
-				controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[1]);
-			}
-			else {
-				video.pause();
-				controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[0]);
-			}
-		}
-	}
-	/*
-	 * Mute function.
-	 * Can either be called through the default control interface or directly through the public method.
-	 * Will set the video to mute or unmute depending on existing state.
-	 * Requires the video to be loaded.
-	 *
-	 */
-	function mute (that) {
-		var video = that.find('video').get(0),
-			controller;
-		if (that.settings.controlPosition) {
-			controller = $(that.settings.controlPosition).find('.ui-video-background-mute a');
-		}
-		else {
-			controller = that.find('.ui-video-background-mute a');
-		}
-		if (video.volume === 0) {
-			video.volume = 1;
-			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(that.settings.controlText[2]);
-		} 
-		else {
-			video.volume = 0;
-			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(that.settings.controlText[3]);
+	function loaded(that) {
+		$(that.controlbox).html(that.controls);
+		loadedEvents(that);
+		if (that.settings.loadedCallback) {
+			(that.settings.loadedCallback).call(that);
 		}
 	}
 	/*
@@ -156,8 +151,8 @@
 		 *
 		 */
 		init: function (options) {
-			if (document.createElement('video').canPlayType) {	
-			  return this.each(function () {
+			if (document.createElement('video').canPlayType) {
+				return this.each(function () {
 					var that = $(this),
 						compiledSource = '',
 						attributes = '',
@@ -402,4 +397,4 @@
 		preloadCallback: null,
 		loadedCallback: null
 	};
-})(jQuery);
+})(jQuery, document, window);
