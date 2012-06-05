@@ -8,6 +8,144 @@
  */
 (function($){
 	/*
+	 * Resize function.
+	 * Triggered if the boolean setting 'resize' is true.
+	 * It will resize the video background based on a resize event initiated on the browser window.
+	 *
+	 */
+	function resize (element) {
+		var documentHeight = $(document).height(),
+			windowHeight = $(window).height();
+		if (windowHeight >= documentHeight) {
+			$(element).css('height', windowHeight);
+		}
+		else if (documentHeight > windowHeight) {
+			$(element).css('height', documentHeight);
+		}
+	}
+	/*
+	 * Preload function.
+	 * Allows for HTML and JavaScript designated in settings to be used while	the video is preloading.
+	 *
+	 */
+	function preload (element) {
+		$(element.controlbox).append(preloadHtml);
+		if (preloadCallback) {
+			(preloadCallback).call(element);
+		}
+	}
+	/*
+	 * Loaded function.
+	 * Allows for HTML and JavaScript designated in settings to be used when the video is loaded.
+	 *
+	 */
+	function loaded (element) {
+		$(element.controlbox).html(element.controls);
+		loadedEvents(element);
+		if (element.settings.loadedCallback) {
+			(element.settings.loadedCallback).call(element);
+		}
+	}
+	/*
+	 * Loaded events function.
+	 * When the video is loaded we have some default HTML and JavaScript to trigger.	
+	 *
+	 */
+	function loadedEvents (element) {
+		/*
+		 * Trigger the resize method based if the browser is resized.
+		 *
+		 */
+		if (element.settings.resize) {
+			$(window).bind('resize', function () {
+				resize(element);
+			});
+		}
+		/*
+		 *	Default play/pause control	
+		 *
+		 */
+		element.controls.find('.ui-video-background-play a').bind('click', function(event) {
+			event.preventDefault();
+			play(element);
+		});
+		/*
+		 *	Default mute/unmute control	
+		 *
+		 */
+		element.controls.find('.ui-video-background-mute a').bind('click', function(event) {
+			event.preventDefault();
+			mute(element);
+		});
+		/*
+		 * Firefox doesn't currently use the loop attribute.
+		 * Loop bound to the video ended event.
+		 *
+		 */	
+		if (element.settings.loop) {		
+			element.find('video').bind('ended', function(){ 
+				$(this).get(0).play();
+				$(this).toggleClass('paused').text(element.settings.controlText[1]);
+			});
+		}
+	}
+	/*
+	 * Play function.
+	 * Can either be called through the default control interface or directly through the public method.
+	 * Will set the video to play or pause depending on existing state.
+	 * Requires the video to be loaded.	
+	 *
+	 */
+	function play (element) {
+		var video = element.find('video').get(0),
+			controller;
+		if (element.settings.controlPosition) {
+			controller = $(element.settings.controlPosition).find('.ui-video-background-play a');
+		}
+		else {
+			controller = element.find('.ui-video-background-play a');
+		}
+		if (video.paused) {
+			video.play();
+			controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[1]);
+		} 
+		else {
+			if (video.ended) {
+				video.play();
+				controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[1]);
+			}
+			else {
+				video.pause();
+				controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[0]);
+			}
+		}
+	}
+	/*
+	 * Mute function.
+	 * Can either be called through the default control interface or directly through the public method.
+	 * Will set the video to mute or unmute depending on existing state.
+	 * Requires the video to be loaded.
+	 *
+	 */
+	function mute (element) {
+		var video = element.find('video').get(0),
+			controller;
+		if (element.settings.controlPosition) {
+			controller = $(element.settings.controlPosition).find('.ui-video-background-mute a');
+		}
+		else {
+			controller = element.find('.ui-video-background-mute a');
+		}
+		if (video.volume === 0) {
+			video.volume = 1;
+			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(element.settings.controlText[2]);
+		} 
+		else {
+			video.volume = 0;
+			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(element.settings.controlText[3]);
+		}
+	}
+	/*
 	 * Public methods accessible through a string declaration equal to the method name.
 	 *
 	 */
@@ -202,144 +340,6 @@
 			});
 		}
 	};
-	/*
-	 * Resize function.
-	 * Triggered if the boolean setting 'resize' is true.
-	 * It will resize the video background based on a resize event initiated on the browser window.
-	 *
-	 */
-	function resize (element) {
-		var documentHeight = $(document).height(),
-			windowHeight = $(window).height();
-		if (windowHeight >= documentHeight) {
-			$(element).css('height', windowHeight);
-		}
-		else if (documentHeight > windowHeight) {
-			$(element).css('height', documentHeight);
-		}
-	}
-	/*
-	 * Preload function.
-	 * Allows for HTML and JavaScript designated in settings to be used while	the video is preloading.
-	 *
-	 */
-	function preload (element) {
-		$(element.controlbox).append(preloadHtml);
-		if (preloadCallback) {
-			(preloadCallback).call(element);
-		}
-	}
-	/*
-	 * Loaded function.
-	 * Allows for HTML and JavaScript designated in settings to be used when the video is loaded.
-	 *
-	 */
-	function loaded (element) {
-		$(element.controlbox).html(element.controls);
-		loadedEvents(element);
-		if (element.settings.loadedCallback) {
-			(element.settings.loadedCallback).call(element);
-		}
-	}
-	/*
-	 * Loaded events function.
-	 * When the video is loaded we have some default HTML and JavaScript to trigger.	
-	 *
-	 */
-	function loadedEvents (element) {
-		/*
-		 * Trigger the resize method based if the browser is resized.
-		 *
-		 */
-		if (element.settings.resize) {
-			$(window).bind('resize', function () {
-				resize(element);
-			});
-		}
-		/*
-		 *	Default play/pause control	
-		 *
-		 */
-		element.controls.find('.ui-video-background-play a').bind('click', function(event) {
-			event.preventDefault();
-			play(element);
-		});
-		/*
-		 *	Default mute/unmute control	
-		 *
-		 */
-		element.controls.find('.ui-video-background-mute a').bind('click', function(event) {
-			event.preventDefault();
-			mute(element);
-		});
-		/*
-		 * Firefox doesn't currently use the loop attribute.
-		 * Loop bound to the video ended event.
-		 *
-		 */	
-		if (element.settings.loop) {		
-			element.find('video').bind('ended', function(){ 
-				$(this).get(0).play();
-				$(this).toggleClass('paused').text(element.settings.controlText[1]);
-			});
-		}
-	}
-	/*
-	 * Play function.
-	 * Can either be called through the default control interface or directly through the public method.
-	 * Will set the video to play or pause depending on existing state.
-	 * Requires the video to be loaded.	
-	 *
-	 */
-	function play (element) {
-		var video = element.find('video').get(0),
-			controller;
-		if (element.settings.controlPosition) {
-			controller = $(element.settings.controlPosition).find('.ui-video-background-play a');
-		}
-		else {
-			controller = element.find('.ui-video-background-play a');
-		}
-		if (video.paused) {
-			video.play();
-			controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[1]);
-		} 
-		else {
-			if (video.ended) {
-				video.play();
-				controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[1]);
-			}
-			else {
-				video.pause();
-				controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[0]);
-			}
-		}
-	}
-	/*
-	 * Mute function.
-	 * Can either be called through the default control interface or directly through the public method.
-	 * Will set the video to mute or unmute depending on existing state.
-	 * Requires the video to be loaded.
-	 *
-	 */
-	function mute (element) {
-		var video = element.find('video').get(0),
-			controller;
-		if (element.settings.controlPosition) {
-			controller = $(element.settings.controlPosition).find('.ui-video-background-mute a');
-		}
-		else {
-			controller = element.find('.ui-video-background-mute a');
-		}
-		if (video.volume === 0) {
-			video.volume = 1;
-			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(element.settings.controlText[2]);
-		} 
-		else {
-			video.volume = 0;
-			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(element.settings.controlText[3]);
-		}
-	}
 	/*
 	 * The video background namespace.
 	 * The gate way for the plugin.	
