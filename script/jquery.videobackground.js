@@ -13,14 +13,14 @@
 	 * It will resize the video background based on a resize event initiated on the browser window.
 	 *
 	 */
-	function resize (element) {
+	function resize (that) {
 		var documentHeight = $(document).height(),
 			windowHeight = $(window).height();
 		if (windowHeight >= documentHeight) {
-			$(element).css('height', windowHeight);
+			$(that).css('height', windowHeight);
 		}
 		else if (documentHeight > windowHeight) {
-			$(element).css('height', documentHeight);
+			$(that).css('height', documentHeight);
 		}
 	}
 	/*
@@ -28,10 +28,10 @@
 	 * Allows for HTML and JavaScript designated in settings to be used while	the video is preloading.
 	 *
 	 */
-	function preload (element) {
-		$(element.controlbox).append(preloadHtml);
+	function preload (that) {
+		$(that.controlbox).append(preloadHtml);
 		if (preloadCallback) {
-			(preloadCallback).call(element);
+			(preloadCallback).call(that);
 		}
 	}
 	/*
@@ -39,11 +39,11 @@
 	 * Allows for HTML and JavaScript designated in settings to be used when the video is loaded.
 	 *
 	 */
-	function loaded (element) {
-		$(element.controlbox).html(element.controls);
-		loadedEvents(element);
-		if (element.settings.loadedCallback) {
-			(element.settings.loadedCallback).call(element);
+	function loaded (that) {
+		$(that.controlbox).html(that.controls);
+		loadedEvents(that);
+		if (that.settings.loadedCallback) {
+			(that.settings.loadedCallback).call(that);
 		}
 	}
 	/*
@@ -51,41 +51,41 @@
 	 * When the video is loaded we have some default HTML and JavaScript to trigger.	
 	 *
 	 */
-	function loadedEvents (element) {
+	function loadedEvents (that) {
 		/*
 		 * Trigger the resize method based if the browser is resized.
 		 *
 		 */
-		if (element.settings.resize) {
+		if (that.settings.resize) {
 			$(window).bind('resize', function () {
-				resize(element);
+				resize(that);
 			});
 		}
 		/*
 		 *	Default play/pause control	
 		 *
 		 */
-		element.controls.find('.ui-video-background-play a').bind('click', function(event) {
+		that.controls.find('.ui-video-background-play a').bind('click', function(event) {
 			event.preventDefault();
-			play(element);
+			play(that);
 		});
 		/*
 		 *	Default mute/unmute control	
 		 *
 		 */
-		element.controls.find('.ui-video-background-mute a').bind('click', function(event) {
+		that.controls.find('.ui-video-background-mute a').bind('click', function(event) {
 			event.preventDefault();
-			mute(element);
+			mute(that);
 		});
 		/*
 		 * Firefox doesn't currently use the loop attribute.
 		 * Loop bound to the video ended event.
 		 *
 		 */	
-		if (element.settings.loop) {		
-			element.find('video').bind('ended', function(){ 
+		if (that.settings.loop) {		
+			that.find('video').bind('ended', function(){ 
 				$(this).get(0).play();
-				$(this).toggleClass('paused').text(element.settings.controlText[1]);
+				$(this).toggleClass('paused').text(that.settings.controlText[1]);
 			});
 		}
 	}
@@ -96,27 +96,27 @@
 	 * Requires the video to be loaded.	
 	 *
 	 */
-	function play (element) {
-		var video = element.find('video').get(0),
+	function play (that) {
+		var video = that.find('video').get(0),
 			controller;
-		if (element.settings.controlPosition) {
-			controller = $(element.settings.controlPosition).find('.ui-video-background-play a');
+		if (that.settings.controlPosition) {
+			controller = $(that.settings.controlPosition).find('.ui-video-background-play a');
 		}
 		else {
-			controller = element.find('.ui-video-background-play a');
+			controller = that.find('.ui-video-background-play a');
 		}
 		if (video.paused) {
 			video.play();
-			controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[1]);
+			controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[1]);
 		} 
 		else {
 			if (video.ended) {
 				video.play();
-				controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[1]);
+				controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[1]);
 			}
 			else {
 				video.pause();
-				controller.toggleClass('ui-icon-pause ui-icon-play').text(element.settings.controlText[0]);
+				controller.toggleClass('ui-icon-pause ui-icon-play').text(that.settings.controlText[0]);
 			}
 		}
 	}
@@ -127,22 +127,22 @@
 	 * Requires the video to be loaded.
 	 *
 	 */
-	function mute (element) {
-		var video = element.find('video').get(0),
+	function mute (that) {
+		var video = that.find('video').get(0),
 			controller;
-		if (element.settings.controlPosition) {
-			controller = $(element.settings.controlPosition).find('.ui-video-background-mute a');
+		if (that.settings.controlPosition) {
+			controller = $(that.settings.controlPosition).find('.ui-video-background-mute a');
 		}
 		else {
-			controller = element.find('.ui-video-background-mute a');
+			controller = that.find('.ui-video-background-mute a');
 		}
 		if (video.volume === 0) {
 			video.volume = 1;
-			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(element.settings.controlText[2]);
+			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(that.settings.controlText[2]);
 		} 
 		else {
 			video.volume = 0;
-			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(element.settings.controlText[3]);
+			controller.toggleClass('ui-icon-volume-on ui-icon-volume-off').text(that.settings.controlText[3]);
 		}
 	}
 	/*
@@ -158,59 +158,59 @@
 		init: function (options) {
 			if (document.createElement('video').canPlayType) {	
 			  return this.each(function () {
-					var element = $(this),
+					var that = $(this),
 						compiledSource = '',
 						attributes = '',
-						data = element.data('video-options');
-					element.settings = $.extend(true, {}, $.fn.videobackground.defaults, options, data);
-					if (!element.settings.initialised) {
-						element.settings.initialised = true;
+						data = that.data('video-options');
+					that.settings = $.extend(true, {}, $.fn.videobackground.defaults, options, data);
+					if (!that.settings.initialised) {
+						that.settings.initialised = true;
 						/*
 						 *	If the resize option is set.
 						 *	Set the height of the container to be the height of the document
 						 *	The video can expand in to the space using min-height: 100%;
 						 *
 						 */
-						if (element.settings.resize) {
-							resize(element);
+						if (that.settings.resize) {
+							resize(that);
 						}
 						/*
 						 *	Compile the different HTML5 video attributes.	
 						 *
 						 */
-						$.each(element.settings.videoSource, function(index, value) { 
+						$.each(that.settings.videoSource, function(index, value) { 
 						  compiledSource = compiledSource + '<source src="' + value + '">';
 						});
-						attributes = attributes + 'preload="' + element.settings.preload + '"';
-						if (element.settings.poster) {
-							attributes = attributes + ' poster="' + element.settings.poster + '"';
+						attributes = attributes + 'preload="' + that.settings.preload + '"';
+						if (that.settings.poster) {
+							attributes = attributes + ' poster="' + that.settings.poster + '"';
 						}
-						if (element.settings.autoplay) {
+						if (that.settings.autoplay) {
 							attributes = attributes + ' autoplay="autoplay"';
 						}
-						if (element.settings.loop) {
+						if (that.settings.loop) {
 							attributes = attributes + ' loop="loop"';
 						}
-						$(element).html('<video '+attributes+'>' + compiledSource + '</video>');
+						$(that).html('<video '+attributes+'>' + compiledSource + '</video>');
 						/*
-						 * Append the control box either to the supplied element or the video background element.	
+						 * Append the control box either to the supplied that or the video background that.	
 						 *
 						 */
-						element.controlbox = $('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
-						if (element.settings.controlPosition) {
-							$(element.settings.controlPosition).append(element.controlbox);
+						that.controlbox = $('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
+						if (that.settings.controlPosition) {
+							$(that.settings.controlPosition).append(that.controlbox);
 						}
 						else {
-							$(element).append(element.controlbox);
+							$(that).append(that.controlbox);
 						}
 						/*
 						 *	HTML string for the video controls.
 						 *
 						 */
-						element.controls = $('<ul class="ui-video-background-controls"><li class="ui-video-background-play">'
-							+ '<a class="ui-icon ui-icon-pause" href="#">'+element.settings.controlText[1]+'</a>'
+						that.controls = $('<ul class="ui-video-background-controls"><li class="ui-video-background-play">'
+							+ '<a class="ui-icon ui-icon-pause" href="#">'+that.settings.controlText[1]+'</a>'
 							+ '</li><li class="ui-video-background-mute">'
-							+ '<a class="ui-icon ui-icon-volume-on" href="#">'+element.settings.controlText[2]+'</a>'
+							+ '<a class="ui-icon ui-icon-volume-on" href="#">'+that.settings.controlText[2]+'</a>'
 							+ '</li></ul>');		
 						/*
 						 * Test for HTML or JavaScript function that should be triggered while the video is attempting to load.
@@ -219,49 +219,49 @@
 						 * When this happens preloaded HTML and JavaSCript should be replaced with loaded HTML and JavaSCript.
 						 *
 						 */
-						if (element.settings.preloadHtml || element.settings.preloadCallback) {
-							preload(element);
-							element.find('video').bind('canplaythrough', function() {
+						if (that.settings.preloadHtml || that.settings.preloadCallback) {
+							preload(that);
+							that.find('video').bind('canplaythrough', function() {
 								/*
 								 * Chrome doesn't currently using the autoplay attribute.
 								 * Autoplay initiated through JavaScript.
 								 *
 								 */
-								if (element.settings.autoplay) {		
-										element.find('video').get(0).play();
+								if (that.settings.autoplay) {		
+										that.find('video').get(0).play();
 								}
-								loaded(element);
+								loaded(that);
 							});
 						}
 						else {
-							element.find('video').bind('canplaythrough', function() {
+							that.find('video').bind('canplaythrough', function() {
 								/*
 								 * Chrome doesn't currently using the autoplay attribute.
 								 * Autoplay initiated through JavaScript.
 								 *
 								 */
-								if (element.settings.autoplay) {		
-										element.find('video').get(0).play();
+								if (that.settings.autoplay) {		
+										that.find('video').get(0).play();
 								}
-								loaded(element);
+								loaded(that);
 							});
 						}
-						element.data('video-options', element.settings);
+						that.data('video-options', that.settings);
 					}
 				});
 			}
 			else {
 				return this.each(function () {
-					var element = $(this);
-						data = element.data('video-options');
-					element.settings = $.extend(true, {}, $.fn.videobackground.defaults, options, data);
-					if (!element.settings.initialised) {
-						element.settings.initialised = true;
-						if (element.settings.poster) {
-							var image = $('<img class="ui-video-background-poster" src="'+ element.settings.poster +'">');
-							element.append(image);
+					var that = $(this);
+						data = that.data('video-options');
+					that.settings = $.extend(true, {}, $.fn.videobackground.defaults, options, data);
+					if (!that.settings.initialised) {
+						that.settings.initialised = true;
+						if (that.settings.poster) {
+							var image = $('<img class="ui-video-background-poster" src="'+ that.settings.poster +'">');
+							that.append(image);
 						}
-						element.data('video-options', element.settings);
+						that.data('video-options', that.settings);
 					}
 				});
 			}
@@ -270,18 +270,18 @@
 		 * Play public method.
 		 * When attached to a video background it will trigger the associated video to play or pause.
 		 * The event it triggeres is dependant on the existing state of the video.
-		 * This method can be triggered from an event on a external element.
-		 * If the element has a unique controlPosition this will have to be declared.
+		 * This method can be triggered from an event on a external that.
+		 * If the that has a unique controlPosition this will have to be declared.
 		 * Requires the video to be loaded first.
 		 *
 		 */
 		play: function (options) {
 		  return this.each(function () {
-				var element = $(this),
-					data = element.data('video-options');
-				element.settings = $.extend(true, {}, data, options);
-				if (element.settings.initialised) {	
-					play(element);
+				var that = $(this),
+					data = that.data('video-options');
+				that.settings = $.extend(true, {}, data, options);
+				if (that.settings.initialised) {	
+					play(that);
 				}
 		  });
 		},
@@ -289,18 +289,18 @@
 		 * Mute public method.
 		 * When attached to a video background it will trigger the associated video to mute or unmute.
 		 * The event it triggeres is dependant on the existing state of the video.
-		 * This method can be triggered from an event on a external element.
-		 * If the element has a unique controlPosition this will have to be declared.
+		 * This method can be triggered from an event on a external that.
+		 * If the that has a unique controlPosition this will have to be declared.
 		 * Requires the video to be loaded first.
 		 *
 		 */
 		mute: function (options) {
 		  return this.each(function () {
-				var element = $(this),
-					data = element.data('video-options');
-				element.settings = $.extend(true, {}, data, options);
-				if (element.settings.initialised) {	
-					mute(element);
+				var that = $(this),
+					data = that.data('video-options');
+				that.settings = $.extend(true, {}, data, options);
+				if (that.settings.initialised) {	
+					mute(that);
 				}
 		  });
 		},
@@ -313,50 +313,50 @@
 		 */
 		resize: function (options) {
 		  return this.each(function () {
-				var element = $(this),
-					data = element.data('video-options');
-				element.settings = $.extend(true, {}, data, options);
-				if (element.settings.initialised) {
-					resize(element);
+				var that = $(this),
+					data = that.data('video-options');
+				that.settings = $.extend(true, {}, data, options);
+				if (that.settings.initialised) {
+					resize(that);
 				}
 		  });
 		},
 		/*
 		 * Destroy public method.
 		 * Will unbind event listeners and remove HTML created by the plugin.
-		 * If the element has a unique controlPosition this will have to be declared.
+		 * If the that has a unique controlPosition this will have to be declared.
 		 *
 		 */
 		destroy: function (options) {
 		  return this.each(function () {
-				var element = $(this),
-					data = element.data('video-options');
-				element.settings = $.extend(true, {}, data, options);
-				if (element.settings.initialised) {
-					element.settings.initialised = false;
+				var that = $(this),
+					data = that.data('video-options');
+				that.settings = $.extend(true, {}, data, options);
+				if (that.settings.initialised) {
+					that.settings.initialised = false;
 					if (document.createElement('video').canPlayType) {	
-						element.find('video').unbind('ended');
-						if (element.settings.controlPosition) {
-							$(element.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
-							$(element.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
+						that.find('video').unbind('ended');
+						if (that.settings.controlPosition) {
+							$(that.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
+							$(that.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
 						}
 						else {
-							element.find('.ui-video-background-mute a').unbind('click');
-							element.find('.ui-video-background-play a').unbind('click');
+							that.find('.ui-video-background-mute a').unbind('click');
+							that.find('.ui-video-background-play a').unbind('click');
 						}
 						$(window).unbind('resize');
-						element.find('video').unbind('canplaythrough');
-						if (element.settings.controlPosition) {
-							$(element.settings.controlPosition).find('.ui-video-background').remove();
+						that.find('video').unbind('canplaythrough');
+						if (that.settings.controlPosition) {
+							$(that.settings.controlPosition).find('.ui-video-background').remove();
 						}
 						else {
-							element.find('.ui-video-background').remove();
+							that.find('.ui-video-background').remove();
 						}
-						$('video', element).remove();
+						$('video', that).remove();
 					}
 					else {
-						if (element.settings.poster) {
-							element.find('.ui-video-background-poster').remove();
+						if (that.settings.poster) {
+							that.find('.ui-video-background-poster').remove();
 						}
 					}
 				}
