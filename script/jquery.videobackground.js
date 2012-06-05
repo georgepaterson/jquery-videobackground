@@ -329,31 +329,35 @@
 		 */
 		destroy: function (options) {
 		  return this.each(function () {
-				var element = $(this);
-				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-				if (document.createElement('video').canPlayType) {	
-					element.find('video').unbind('ended');
-					if (element.settings.controlPosition) {
-						$(element.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
-						$(element.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
+				var element = $(this),
+					data = element.data('video-options');
+				element.settings = $.extend(true, {}, data, options);
+				if (element.settings.initialised) {
+					element.settings.initialised = false;
+					if (document.createElement('video').canPlayType) {	
+						element.find('video').unbind('ended');
+						if (element.settings.controlPosition) {
+							$(element.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
+							$(element.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
+						}
+						else {
+							element.find('.ui-video-background-mute a').unbind('click');
+							element.find('.ui-video-background-play a').unbind('click');
+						}
+						$(window).unbind('resize');
+						element.find('video').unbind('canplaythrough');
+						if (element.settings.controlPosition) {
+							$(element.settings.controlPosition).find('.ui-video-background').remove();
+						}
+						else {
+							element.find('.ui-video-background').remove();
+						}
+						$('video', element).remove();
 					}
 					else {
-						element.find('.ui-video-background-mute a').unbind('click');
-						element.find('.ui-video-background-play a').unbind('click');
-					}
-					$(window).unbind('resize');
-					element.find('video').unbind('canplaythrough');
-					if (element.settings.controlPosition) {
-						$(element.settings.controlPosition).find('.ui-video-background').remove();
-					}
-					else {
-						element.find('.ui-video-background').remove();
-					}
-					$('video', element).remove();
-				}
-				else {
-					if (element.settings.poster) {
-						element.find('.ui-video-background-poster').remove();
+						if (element.settings.poster) {
+							element.find('.ui-video-background-poster').remove();
+						}
 					}
 				}
 			});
