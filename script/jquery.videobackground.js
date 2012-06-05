@@ -158,100 +158,110 @@
 		init: function (options) {
 			if (document.createElement('video').canPlayType) {	
 			  return this.each(function () {
-					var element = $(this);
-					element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-					/*
-					 *	If the resize option is set.
-					 *	Set the height of the container to be the height of the document
-					 *	The video can expand in to the space using min-height: 100%;
-					 *
-					 */
-					if (element.settings.resize) {
-						resize(element);
-					}
-					/*
-					 *	Compile the different HTML5 video attributes.	
-					 *
-					 */
-					var compiledSource = '';
-					$.each(element.settings.videoSource, function(index, value) { 
-					  compiledSource = compiledSource + '<source src="' + value + '">';
-					});
-					var attributes = '';
-					attributes = attributes + 'preload="' + element.settings.preload + '"';
-					if (element.settings.poster) {
-						attributes = attributes + ' poster="' + element.settings.poster + '"';
-					}
-					if (element.settings.autoplay) {
-						attributes = attributes + ' autoplay="autoplay"';
-					}
-					if (element.settings.loop) {
-						attributes = attributes + ' loop="loop"';
-					}
-					$(element).html('<video '+attributes+'>' + compiledSource + '</video>');
-					/*
-					 * Append the control box either to the supplied element or the video background element.	
-					 *
-					 */
-					element.controlbox = $('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
-					if (element.settings.controlPosition) {
-						$(element.settings.controlPosition).append(element.controlbox);
-					}
-					else {
-						$(element).append(element.controlbox);
-					}
-					/*
-					 *	HTML string for the video controls.
-					 *
-					 */
-					element.controls = $('<ul class="ui-video-background-controls"><li class="ui-video-background-play">'
-						+ '<a class="ui-icon ui-icon-pause" href="#">'+element.settings.controlText[1]+'</a>'
-						+ '</li><li class="ui-video-background-mute">'
-						+ '<a class="ui-icon ui-icon-volume-on" href="#">'+element.settings.controlText[2]+'</a>'
-						+ '</li></ul>');		
-					/*
-					 * Test for HTML or JavaScript function that should be triggered while the video is attempting to load.
-					 * The canplaythrough event signals when when the video can play through to the end without disruption.
-					 * We use this to determine when the video is ready to play.
-					 * When this happens preloaded HTML and JavaSCript should be replaced with loaded HTML and JavaSCript.
-					 *
-					 */
-					if (element.settings.preloadHtml || element.settings.preloadCallback) {
-						preload(element);
-						element.find('video').bind('canplaythrough', function() {
-							/*
-							 * Chrome doesn't currently using the autoplay attribute.
-							 * Autoplay initiated through JavaScript.
-							 *
-							 */
-							if (element.settings.autoplay) {		
-									element.find('video').get(0).play();
-							}
-							loaded(element);
+					var element = $(this),
+						compiledSource = '',
+						attributes = '',
+						data = element.data('video-options');
+					element.settings = $.extend(true, {}, $.fn.videobackground.defaults, options, data);
+					if (!element.settings.initialised) {
+						element.settings.initialised = true;
+						/*
+						 *	If the resize option is set.
+						 *	Set the height of the container to be the height of the document
+						 *	The video can expand in to the space using min-height: 100%;
+						 *
+						 */
+						if (element.settings.resize) {
+							resize(element);
+						}
+						/*
+						 *	Compile the different HTML5 video attributes.	
+						 *
+						 */
+						$.each(element.settings.videoSource, function(index, value) { 
+						  compiledSource = compiledSource + '<source src="' + value + '">';
 						});
-					}
-					else {
-						element.find('video').bind('canplaythrough', function() {
-							/*
-							 * Chrome doesn't currently using the autoplay attribute.
-							 * Autoplay initiated through JavaScript.
-							 *
-							 */
-							if (element.settings.autoplay) {		
-									element.find('video').get(0).play();
-							}
-							loaded(element);
-						});
+						attributes = attributes + 'preload="' + element.settings.preload + '"';
+						if (element.settings.poster) {
+							attributes = attributes + ' poster="' + element.settings.poster + '"';
+						}
+						if (element.settings.autoplay) {
+							attributes = attributes + ' autoplay="autoplay"';
+						}
+						if (element.settings.loop) {
+							attributes = attributes + ' loop="loop"';
+						}
+						$(element).html('<video '+attributes+'>' + compiledSource + '</video>');
+						/*
+						 * Append the control box either to the supplied element or the video background element.	
+						 *
+						 */
+						element.controlbox = $('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
+						if (element.settings.controlPosition) {
+							$(element.settings.controlPosition).append(element.controlbox);
+						}
+						else {
+							$(element).append(element.controlbox);
+						}
+						/*
+						 *	HTML string for the video controls.
+						 *
+						 */
+						element.controls = $('<ul class="ui-video-background-controls"><li class="ui-video-background-play">'
+							+ '<a class="ui-icon ui-icon-pause" href="#">'+element.settings.controlText[1]+'</a>'
+							+ '</li><li class="ui-video-background-mute">'
+							+ '<a class="ui-icon ui-icon-volume-on" href="#">'+element.settings.controlText[2]+'</a>'
+							+ '</li></ul>');		
+						/*
+						 * Test for HTML or JavaScript function that should be triggered while the video is attempting to load.
+						 * The canplaythrough event signals when when the video can play through to the end without disruption.
+						 * We use this to determine when the video is ready to play.
+						 * When this happens preloaded HTML and JavaSCript should be replaced with loaded HTML and JavaSCript.
+						 *
+						 */
+						if (element.settings.preloadHtml || element.settings.preloadCallback) {
+							preload(element);
+							element.find('video').bind('canplaythrough', function() {
+								/*
+								 * Chrome doesn't currently using the autoplay attribute.
+								 * Autoplay initiated through JavaScript.
+								 *
+								 */
+								if (element.settings.autoplay) {		
+										element.find('video').get(0).play();
+								}
+								loaded(element);
+							});
+						}
+						else {
+							element.find('video').bind('canplaythrough', function() {
+								/*
+								 * Chrome doesn't currently using the autoplay attribute.
+								 * Autoplay initiated through JavaScript.
+								 *
+								 */
+								if (element.settings.autoplay) {		
+										element.find('video').get(0).play();
+								}
+								loaded(element);
+							});
+						}
+						element.data('video-options', element.settings);
 					}
 				});
 			}
 			else {
 				return this.each(function () {
 					var element = $(this);
-					element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-					if (element.settings.poster) {
-						var image = $('<img class="ui-video-background-poster" src="'+ element.settings.poster +'">');
-						element.append(image);
+						data = element.data('video-options');
+					element.settings = $.extend(true, {}, $.fn.videobackground.defaults, options, data);
+					if (!element.settings.initialised) {
+						element.settings.initialised = true;
+						if (element.settings.poster) {
+							var image = $('<img class="ui-video-background-poster" src="'+ element.settings.poster +'">');
+							element.append(image);
+						}
+						element.data('video-options', element.settings);
 					}
 				});
 			}
