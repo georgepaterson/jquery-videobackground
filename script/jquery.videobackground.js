@@ -277,9 +277,12 @@
 		 */
 		play: function (options) {
 		  return this.each(function () {
-				var element = $(this);
-				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-				play(element);
+				var element = $(this),
+					data = element.data('video-options');
+				element.settings = $.extend(true, {}, data, options);
+				if (element.settings.initialised) {	
+					play(element);
+				}
 		  });
 		},
 		/*
@@ -293,9 +296,12 @@
 		 */
 		mute: function (options) {
 		  return this.each(function () {
-				var element = $(this);
-				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-				mute(element);
+				var element = $(this),
+					data = element.data('video-options');
+				element.settings = $.extend(true, {}, data, options);
+				if (element.settings.initialised) {	
+					mute(element);
+				}
 		  });
 		},
 		/*
@@ -307,9 +313,12 @@
 		 */
 		resize: function (options) {
 		  return this.each(function () {
-				var element = $(this);
-				element.settings = $.extend({}, $.fn.videobackground.defaults, options);
-				resize(element);
+				var element = $(this),
+					data = element.data('video-options');
+				element.settings = $.extend(true, {}, data, options);
+				if (element.settings.initialised) {
+					resize(element);
+				}
 		  });
 		},
 		/*
