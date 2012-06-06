@@ -174,7 +174,11 @@
 						 *
 						 */
 						$.each(that.settings.videoSource, function(index, value) { 
-						  compiledSource = compiledSource + '<source src="' + value + '">';
+							if(value[1] != undefined) {
+								compiledSource = compiledSource + '<source src="' + value[0] + '" type="' + value[1] + '">';
+							} else {
+								compiledSource = compiledSource + '<source src="' + value[0] + '">';
+							}
 						});
 						attributes = attributes + 'preload="' + that.settings.preload + '"';
 						if (that.settings.poster) {

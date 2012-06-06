@@ -79,9 +79,9 @@
 				});
 				$('body').prepend('<div class="video-background"></div>');
 				$('.video-background').videobackground({
-					videoSource: ['video/big-buck-bunny.mp4',
-						'video/big-buck-bunny.webm', 
-						'video/big-buck-bunny.ogv'], 
+					videoSource: [['video/big-buck-bunny.mp4', 'video/mp4'],
+						['video/big-buck-bunny.webm', 'video/webm'], 
+						['video/big-buck-bunny.ogv', 'video/ogg']], 
 					controlPosition: '#main',
 					poster: 'video/big-buck-bunny.jpg',
 					loadedCallback: function() {
