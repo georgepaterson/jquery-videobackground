@@ -157,7 +157,7 @@
 						compiledSource = '',
 						attributes = '',
 						data = that.data('video-options');
-					that.settings = $.extend(true, {}, $.fn.videobackground.defaults, options, data);
+					that.settings = $.extend(true, {}, $.fn.videobackground.defaults, data, options);
 					if (!that.settings.initialised) {
 						that.settings.initialised = true;
 						/*
@@ -253,7 +253,7 @@
 				return this.each(function () {
 					var that = $(this);
 						data = that.data('video-options');
-					that.settings = $.extend(true, {}, $.fn.videobackground.defaults, options, data);
+					that.settings = $.extend(true, {}, $.fn.videobackground.defaults, data, options);
 					if (!that.settings.initialised) {
 						that.settings.initialised = true;
 						if (that.settings.poster) {
@@ -281,6 +281,7 @@
 				that.settings = $.extend(true, {}, data, options);
 				if (that.settings.initialised) {	
 					play(that);
+					that.data('video-options', that.settings);
 				}
 		  });
 		},
@@ -300,6 +301,7 @@
 				that.settings = $.extend(true, {}, data, options);
 				if (that.settings.initialised) {	
 					mute(that);
+					that.data('video-options', that.settings);
 				}
 		  });
 		},
@@ -317,6 +319,7 @@
 				that.settings = $.extend(true, {}, data, options);
 				if (that.settings.initialised) {
 					resize(that);
+					that.data('video-options', that.settings);
 				}
 		  });
 		},
@@ -358,6 +361,7 @@
 							that.find('.ui-video-background-poster').remove();
 						}
 					}
+					that.removeData('video-options');
 				}
 			});
 		}
