@@ -28,5 +28,15 @@ Plugin parameters:
 Video trailer from [http://www.bigbuckbunny.org/](www.bigbuckbunny.org), an open source [http://www.blender.org/](Blender) project.
 
 ---
+
+## Change log
+
+| Release   |  Description	                                                            | Updated by      | Date       |
+|-----------| ------------------------------------------------------------------------- |---------------- |----------- |
+| 1.0.0     | Initial release of plugin supporting a basic background video experience. | George Paterson | 13/06/2011 |
+| 1.1.0     | Update for play, mute, destroy and resize public methods.                 | George Paterson | 30/08/2011 |
+| 1.2.0     |                                                                           |                 |            |
+
+---
 	
 Please use the [GitHub issue tracker](http://github.com/georgepaterson/jquery-videobackground/issues) for bug reports and feature requests.
