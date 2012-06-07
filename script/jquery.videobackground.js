@@ -174,7 +174,7 @@
 						 *
 						 */
 						$.each(that.settings.videoSource, function(index, value) { 
-							if(value[1] != undefined) {
+							if(value[1] !== undefined) {
 								compiledSource = compiledSource + '<source src="' + value[0] + '" type="' + value[1] + '">';
 							} else {
 								compiledSource = compiledSource + '<source src="' + value[0] + '">';
@@ -198,8 +198,7 @@
 						that.controlbox = $('<div class="ui-video-background ui-widget ui-widget-content ui-corner-all"></div>');
 						if (that.settings.controlPosition) {
 							$(that.settings.controlPosition).append(that.controlbox);
-						}
-						else {
+						} else {
 							$(that).append(that.controlbox);
 						}
 						/*
@@ -231,8 +230,7 @@
 								}
 								loaded(that);
 							});
-						}
-						else {
+						} else {
 							that.find('video').bind('canplaythrough', function() {
 								/*
 								 * Chrome doesn't currently using the autoplay attribute.
@@ -251,7 +249,7 @@
 			}
 			else {
 				return this.each(function () {
-					var that = $(this);
+					var that = $(this),
 						data = that.data('video-options');
 					that.settings = $.extend(true, {}, $.fn.videobackground.defaults, data, options);
 					if (!that.settings.initialised) {
@@ -341,8 +339,7 @@
 						if (that.settings.controlPosition) {
 							$(that.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
 							$(that.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
-						}
-						else {
+						} else {
 							that.find('.ui-video-background-mute a').unbind('click');
 							that.find('.ui-video-background-play a').unbind('click');
 						}
@@ -350,13 +347,11 @@
 						that.find('video').unbind('canplaythrough');
 						if (that.settings.controlPosition) {
 							$(that.settings.controlPosition).find('.ui-video-background').remove();
-						}
-						else {
+						} else {
 							that.find('.ui-video-background').remove();
 						}
 						$('video', that).remove();
-					}
-					else {
+					} else {
 						if (that.settings.poster) {
 							that.find('.ui-video-background-poster').remove();
 						}
@@ -386,7 +381,7 @@
 			return methods.init.apply(this, arguments);
 	    } else {
 			$.error('Method ' +  method + ' does not exist on jQuery.videobackground');
-    	}
+		}
 	};
 	/*
 	 *	Default options, can be extend by options passed to the function.
