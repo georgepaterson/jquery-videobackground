@@ -96,7 +96,7 @@
 		 *
 		 */
 		if (that.settings.resize) {
-			$(window).on('resize', function () {
+			$(window).bind('resize', function () {
 				resize(that);
 			});
 		}
@@ -104,7 +104,7 @@
 		 * Default play/pause control	
 		 *
 		 */
-		that.controls.find('.ui-video-background-play a').on('click', function (event) {
+		that.controls.find('.ui-video-background-play a').bind('click', function (event) {
 			event.preventDefault();
 			play(that);
 		});
@@ -112,7 +112,7 @@
 		 * Default mute/unmute control	
 		 *
 		 */
-		that.controls.find('.ui-video-background-mute a').on('click', function (event) {
+		that.controls.find('.ui-video-background-mute a').bind('click', function (event) {
 			event.preventDefault();
 			mute(that);
 		});
@@ -122,7 +122,7 @@
 		 *
 		 */
 		if (that.settings.loop) {
-			that.find('video').on('ended', function () {
+			that.find('video').bind('ended', function () {
 				$(this).get(0).play();
 				$(this).toggleClass('paused').text(that.settings.controlText[1]);
 			});
@@ -220,7 +220,7 @@
 						 */
 						if (that.settings.preloadHtml || that.settings.preloadCallback) {
 							preload(that);
-							that.find('video').on('canplaythrough', function () {
+							that.find('video').bind('canplaythrough', function () {
 								/*
 								 * Chrome doesn't currently using the autoplay attribute.
 								 * Autoplay initiated through JavaScript.
@@ -232,7 +232,7 @@
 								loaded(that);
 							});
 						} else {
-							that.find('video').on('canplaythrough', function () {
+							that.find('video').bind('canplaythrough', function () {
 								/*
 								 * Chrome doesn't currently using the autoplay attribute.
 								 * Autoplay initiated through JavaScript.
@@ -331,16 +331,16 @@
 				if (that.settings.initialised) {
 					that.settings.initialised = false;
 					if (document.createElement('video').canPlayType) {
-						that.find('video').off('ended');
+						that.find('video').unbind('ended');
 						if (that.settings.controlPosition) {
-							$(that.settings.controlPosition).find('.ui-video-background-mute a').off('click');
-							$(that.settings.controlPosition).find('.ui-video-background-play a').off('click');
+							$(that.settings.controlPosition).find('.ui-video-background-mute a').unbind('click');
+							$(that.settings.controlPosition).find('.ui-video-background-play a').unbind('click');
 						} else {
-							that.find('.ui-video-background-mute a').off('click');
-							that.find('.ui-video-background-play a').off('click');
+							that.find('.ui-video-background-mute a').unbind('click');
+							that.find('.ui-video-background-play a').unbind('click');
 						}
-						$(window).off('resize');
-						that.find('video').off('canplaythrough');
+						$(window).unbind('resize');
+						that.find('video').unbind('canplaythrough');
 						if (that.settings.controlPosition) {
 							$(that.settings.controlPosition).find('.ui-video-background').remove();
 						} else {
