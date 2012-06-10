@@ -17,10 +17,14 @@
 	function resize(that) {
 		var documentHeight = $(document).height(),
 			windowHeight = $(window).height();
-		if (windowHeight >= documentHeight) {
+		if (that.settings.resizeTo === 'window') {
 			$(that).css('height', windowHeight);
 		} else {
-			$(that).css('height', documentHeight);
+			if (windowHeight >= documentHeight) {
+				$(that).css('height', windowHeight);
+			} else {
+				$(that).css('height', documentHeight);
+			}
 		}
 	}
 	/*
@@ -394,6 +398,7 @@
 		resize: true,
 		preloadHtml: '',
 		preloadCallback: null,
-		loadedCallback: null
+		loadedCallback: null,
+		resizeTo: 'document'
 	};
 }(jQuery, document, window));
