@@ -33,8 +33,9 @@ Video trailer from [http://www.bigbuckbunny.org/](www.bigbuckbunny.org), an open
 |-----------| ------------------------------------------------------------------------- |---------------- |----------- |
 | 1.0.0     | Initial release of plugin supporting a basic background video experience. | George Paterson | 13/06/2011 |
 | 1.1.0     | Update for play, mute, destroy and resize public methods.                 | George Paterson | 30/08/2011 |
-| 1.2.0     | Issue #12 resolved, requires videoSource to use a multi dimension array.  | George Paterson |            |
-|           | Data attributes and jQuery .data now supported.                           |                 |            |
-|           | Update for jQuery 1.7 support, event handlers bound with .on              |                 |            |
+| 1.2.0     | Issue #12 resolved, requires videoSource to use a multi dimension array.  | George Paterson | 10/06/2012 |
+| 1.2.0     | Data attributes and jQuery .data supported.                               | George Paterson | 10/06/2012 |
+| 1.2.0     | jQuery 1.7 support, event handlers bound with .on                         | George Paterson | 10/06/2012 |
+| 1.2.0     | Public method and callback unit tests using QUnit                         | George Paterson | 10/06/2012 |
 	
 Please use the [GitHub issue tracker](http://github.com/georgepaterson/jquery-videobackground/issues) for bug reports and feature requests.
