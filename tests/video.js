@@ -18,31 +18,31 @@ $(document).ready(function () {
 		$([]).videobackground({
 			videoSource: videoFiles
 		}).remove();
-		ok(true, '.dialog() called on empty collection');
+		ok(true, '.videobackground() called on empty collection');
 	});
 	test('play', function () {
 		$('<div></div>').appendTo('body').videobackground({
 			videoSource: videoFiles
 		}).videobackground('play').remove();
-		ok(true, '.dialog(\'play\') called on element');
+		ok(true, '.videobackground(\'play\') called on element');
 	});
 	test('mute', function () {
 		$('<div></div>').appendTo('body').videobackground({
 			videoSource: videoFiles
 		}).videobackground('mute').remove();
-		ok(true, '.dialog(\'mute\') called on element');
+		ok(true, '.videobackground(\'mute\') called on element');
 	});
 	test('resize', function () {
 		$('<div></div>').appendTo('body').videobackground({
 			videoSource: videoFiles
 		}).videobackground('resize').remove();
-		ok(true, '.dialog(\'resize\') called on element');
+		ok(true, '.videobackground(\'resize\') called on element');
 	});
 	test('destroy', function () {
 		$('<div></div>').appendTo('body').videobackground({
 			videoSource: videoFiles
 		}).videobackground('destroy').remove();
-		ok(true, '.dialog(\'destroy\') called on element');
+		ok(true, '.videobackground(\'destroy\') called on element');
 	});
 	module('callbacks');
 	test('preloadCallback', function () {
