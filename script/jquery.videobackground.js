@@ -179,10 +179,11 @@
 						 *
 						 */
 						$.each(that.settings.videoSource, function () {
-							if (this[1] !== undefined) {
+							var isArray = Object.prototype.toString.call(this) === '[object Array]';
+							if (isArray && this[1] !== undefined) {
 								compiledSource = compiledSource + '<source src="' + this[0] + '" type="' + this[1] + '">';
 							} else {
-								compiledSource = compiledSource + '<source src="' + this[0] + '">';
+								compiledSource = compiledSource + '<source src="' + (isArray ? this[0] : this) + '">';
 							}
 						});
 						attributes = attributes + 'preload="' + that.settings.preload + '"';
