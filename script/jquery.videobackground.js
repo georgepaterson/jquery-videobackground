@@ -160,7 +160,8 @@
 					compiledSource = '',
 					attributes = '',
 					data = that.data('video-options'),
-					image;
+					image,
+					isArray;
 				if (document.createElement('video').canPlayType) {
 					that.settings = $.extend(true, {}, $.fn.videobackground.defaults, data, options);
 					if (!that.settings.initialised) {
@@ -179,11 +180,15 @@
 						 *
 						 */
 						$.each(that.settings.videoSource, function () {
-							var isArray = Object.prototype.toString.call(this) === '[object Array]';
+							isArray = Object.prototype.toString.call(this) === '[object Array]';
 							if (isArray && this[1] !== undefined) {
 								compiledSource = compiledSource + '<source src="' + this[0] + '" type="' + this[1] + '">';
 							} else {
-								compiledSource = compiledSource + '<source src="' + (isArray ? this[0] : this) + '">';
+								if (isArray) {
+									compiledSource = compiledSource + '<source src="' + this[0] + '">';
+								} else {
+									compiledSource = compiledSource + '<source src="' + this + '">';
+								}
 							}
 						});
 						attributes = attributes + 'preload="' + that.settings.preload + '"';

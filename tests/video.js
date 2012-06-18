@@ -6,19 +6,31 @@ $(document).ready(function () {
 		['../video/big-buck-bunny.ogv', 'video/ogg']];
 	test('init', function () {
 		$('<div></div>').appendTo('body').videobackground({
+			videoSource: ['../video/big-buck-bunny.mp4',
+				'../video/big-buck-bunny.webm',
+				'../video/big-buck-bunny.ogv']
+		}).remove();
+		ok(true, '.videobackground() called on element as an array of strings');
+		$('<div></div>').appendTo('body').videobackground({
 			videoSource: videoFiles
 		}).remove();
-		ok(true, '.videobackground() called on element with video type');
+		ok(true, '.videobackground() called on element as an array of arrays with video type');
 		$('<div></div>').appendTo('body').videobackground({
 			videoSource: [['../video/big-buck-bunny.mp4'],
 				['../video/big-buck-bunny.webm'],
 				['../video/big-buck-bunny.ogv']]
 		}).remove();
-		ok(true, '.videobackground() called on element without video type');
+		ok(true, '.videobackground() called on element as an array of arrays without video type');
+		$([]).appendTo('body').videobackground({
+			videoSource: ['../video/big-buck-bunny.mp4',
+				'../video/big-buck-bunny.webm',
+				'../video/big-buck-bunny.ogv']
+		}).remove();
+		ok(true, '.videobackground() as an array of strings called on empty collection');
 		$([]).videobackground({
 			videoSource: videoFiles
 		}).remove();
-		ok(true, '.videobackground() called on empty collection');
+		ok(true, '.videobackground() as an array of arrays called on empty collection');
 	});
 	test('play', function () {
 		$('<div></div>').appendTo('body').videobackground({
