@@ -13,7 +13,7 @@ Public methods:
 
 Plugin parameters:
 
-*	videoSource: An array of possible video source URL's. Separate video source attributes with be generated per instance. No default.
+*	videoSource: Either an array of strings of video URL's or a two-dimensional array containing video URL's and type. No default.
 *	poster: The URL string of the image used for the video poster attribute. No default.
 *	autoplay: Video autoplay attribute boolean. Default is true.
 *	preload: Video prelod attribute string. Default is none.
@@ -24,18 +24,21 @@ Plugin parameters:
 *	preloadHtml: If required, a user controlled HTML string can be injected in to the control area of the page while the video is preloading. It will be over written by the video controls when the video is ready to play.
 *	preloadCallback: Allows a function to be triggered when the video preload is initiated.
 *	loadedCallback: Allows a function to be triggered when the video is loaded.
+*	resizeTo: Allows the video background to resize to either the document or the window. Default is document.
 
 Video trailer from [http://www.bigbuckbunny.org/](www.bigbuckbunny.org), an open source [http://www.blender.org/](Blender) project.
 
 ## Change log
 
-| Release   |  Description	                                                            | Updated by      | Date       |
-|-----------| ------------------------------------------------------------------------- |---------------- |----------- |
-| 1.0.0     | Initial release of plugin supporting a basic background video experience. | George Paterson | 13/06/2011 |
-| 1.1.0     | Update for play, mute, destroy and resize public methods.                 | George Paterson | 30/08/2011 |
-| 1.2.0     | Issue #12 resolved, requires videoSource to use a multi dimension array.  | George Paterson | 10/06/2012 |
-| 1.2.0     | Data attributes and jQuery .data supported.                               | George Paterson | 10/06/2012 |
-| 1.2.0     | jQuery 1.7 support, event handlers bound with .on                         | George Paterson | 10/06/2012 |
-| 1.2.0     | Public method and callback unit tests using QUnit                         | George Paterson | 10/06/2012 |
+| Release   |  Description	                                                                   | Updated by      | Date       |
+|-----------| -------------------------------------------------------------------------------- |---------------- |----------- |
+| 1.0.0     | Initial release of plugin supporting a basic background video experience.        | George Paterson | 13/06/2011 |
+| 1.1.0     | Update for play, mute, destroy and resize public methods.                        | George Paterson | 30/08/2011 |
+| 1.2.0     | Issue #12 resolved, requires videoSource to use a multi dimension array.         | George Paterson | 10/06/2012 |
+| 1.2.0     | Data attributes and jQuery .data supported.                                      | George Paterson | 10/06/2012 |
+| 1.2.0     | jQuery 1.7 support, event handlers bound with .on.                               | George Paterson | 10/06/2012 |
+| 1.2.0     | Public method and callback unit tests using QUnit.                               | George Paterson | 10/06/2012 |
+| 1.3.0     | resizeTo option to control document or window height resizing.                   | George Paterson | 22/06/2012 |
+| 1.3.0     | Pull request #16 by Andreas Lind Petersen allowing string or array video source. | George Paterson | 22/06/2012 |
 	
 Please use the [GitHub issue tracker](http://github.com/georgepaterson/jquery-videobackground/issues) for bug reports and feature requests.
