@@ -30,15 +30,25 @@ Video trailer from [http://www.bigbuckbunny.org/](www.bigbuckbunny.org), an open
 
 ## Change log
 
-| Release   |  Description	                                                                   | Updated by      | Date       |
-|-----------| -------------------------------------------------------------------------------- |---------------- |----------- |
-| 1.0.0     | Initial release of plugin supporting a basic background video experience.        | George Paterson | 13/06/2011 |
-| 1.1.0     | Update for play, mute, destroy and resize public methods.                        | George Paterson | 30/08/2011 |
-| 1.2.0     | Issue #12 resolved, requires videoSource to use a multi dimension array.         | George Paterson | 10/06/2012 |
-| 1.2.0     | Data attributes and jQuery .data supported.                                      | George Paterson | 10/06/2012 |
-| 1.2.0     | jQuery 1.7 support, event handlers bound with .on.                               | George Paterson | 10/06/2012 |
-| 1.2.0     | Public method and callback unit tests using QUnit.                               | George Paterson | 10/06/2012 |
-| 1.3.0     | resizeTo option to control document or window height resizing.                   | George Paterson | 22/06/2012 |
-| 1.3.0     | Pull request #16 by Andreas Lind Petersen allowing string or array video source. | George Paterson | 22/06/2012 |
+Release 1.3.0
+
+* resizeTo option to control document or window height resizing.
+* Pull request #16 by Andreas Lind Petersen allowing string or array video source.
+
+Release 1.2.0
+
+* Issue #12 resolved, requires videoSource to use a multi dimension array.
+* Data attributes and jQuery .data supported.
+* jQuery 1.7 support, event handlers bound with .on.
+* Public method and callback unit tests using QUnit.
+
+Release 1.1.0
+
+* Update for play, mute, destroy and resize public methods.
+
+Release 1.0.0
+
+* Initial release of plugin supporting a basic background video experience.
+
 	
 Please use the [GitHub issue tracker](http://github.com/georgepaterson/jquery-videobackground/issues) for bug reports and feature requests.
