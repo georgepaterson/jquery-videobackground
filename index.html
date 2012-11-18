@@ -1,93 +1,152 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>jquery-videobackground by georgepaterson</title>
+<!DOCTYPE html>
+<html lang="en-GB" dir="ltr">
+    <head>
+		<title>jQuery Video Background plugin</title>
+		<meta charset="utf-8">
+		<link href="themes/ui-darkness/jquery-ui-1.8.12.custom.css" rel="stylesheet" media="screen">
+		<link href="themes/jquery.videobackground.css" rel="stylesheet" media="screen">
+		<style>
+			/*
+			 * Page specific styling.
+			 *
+			 */
+			body {
+				margin: 0;
+				font-family: arial, helvetica, sans-serif;
+			}
+			a {
+				color: #FFF;
+			}
+			h2 {
+				font-size: 20px;
+				font-weight: normal;
+			}
+			li {
+				list-style: none;
+			}
+			dl {
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>jquery-videobackground</h1>
-        <p>HTML5 video background jQuery plugin</p>
-
-        <p class="view"><a href="https://github.com/georgepaterson/jquery-videobackground">View the Project on GitHub <small>georgepaterson/jquery-videobackground</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/georgepaterson/jquery-videobackground/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/georgepaterson/jquery-videobackground/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/georgepaterson/jquery-videobackground">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1><a href="http://www.georgepaterson.com">jQuery Video Background plugin</a></h1>
-
-<p>Example of the jQuery Video Background plugin. Will place a resizable video in to the background of the page or designated element. Browsers that don't support the HTML5 video element will get an image if a poster image was provided.</p>
-
-<p>If the containing element's width and height does not match the aspect ration of the video, the video will not stretch to fill the container but will render based on the largest dimension.</p>
-
-<p>Public methods:</p>
-
-<ul>
-<li>play: Trigger a play/pause event on the chosen video background. Will play if the video is already paused. Will pause if the video is already playing. </li>
-<li>mute: Trigger a mute/unmute event on the chosen video background. Will unmute if the video is already muted. Will mute if the video is unmuted.</li>
-<li>destroy: Will destroy the chosen video background. Will unbind events bound when the video background is initialised. Will remove HTML attached to the DOM by the plugin. If a controlPosition parameter is set this will also have to be set to safely remove all HTML elements from the DOM.</li>
-<li>resize: When invoked this will resize the video background to the height of the document or window. The video background height affects the height of the document which affects the video background's ability to negatively resize.</li>
-</ul><p>Plugin parameters:</p>
-
-<ul>
-<li>  videoSource: Either an array of strings of video URL's or a two-dimensional array containing video URL's and type. No default.</li>
-<li>  poster: The URL string of the image used for the video poster attribute. No default.</li>
-<li>  autoplay: Video autoplay attribute boolean. Default is true.</li>
-<li>  preload: Video prelod attribute string. Default is none.</li>
-<li>  loop: Video loop attribute boolean. Default is false.</li>
-<li>  controlPosition: Position of the video controls, will append the controls to choose DOM element. Default is null.  If null will append controls to the element the video background has been applied to.</li>
-<li>  controlText: An array of text options for the video control elements.</li>
-<li>  resize: Boolean which will trigger the video background to resize to match the browser height. Set to false is video background is used on another element. Default is true.</li>
-<li>  preloadHtml: If required, a user controlled HTML string can be injected in to the control area of the page while the video is preloading. It will be over written by the video controls when the video is ready to play.</li>
-<li>  preloadCallback: Allows a function to be triggered when the video preload is initiated.</li>
-<li>  loadedCallback: Allows a function to be triggered when the video is loaded.</li>
-<li>  resizeTo: Allows the video background to resize to either the document or the window. Default is document.</li>
-</ul><p>Video trailer from <a href="www.bigbuckbunny.org">http://www.bigbuckbunny.org/</a>, an open source <a href="Blender">http://www.blender.org/</a> project.</p>
-
-<h2>Change log</h2>
-
-<p>Release 1.3.0</p>
-
-<ul>
-<li>resizeTo option to control document or window height resizing.</li>
-<li>Pull request #16 by Andreas Lind Petersen allowing string or array video source.</li>
-</ul><p>Release 1.2.0</p>
-
-<ul>
-<li>Issue #12 resolved, requires videoSource to use a multi dimension array.</li>
-<li>Data attributes and jQuery .data supported.</li>
-<li>jQuery 1.7 support, event handlers bound with .on.</li>
-<li>Public method and callback unit tests using QUnit.</li>
-</ul><p>Release 1.1.0</p>
-
-<ul>
-<li>Update for play, mute, destroy and resize public methods.</li>
-</ul><p>Release 1.0.0</p>
-
-<ul>
-<li>Initial release of plugin supporting a basic background video experience.</li>
-</ul><p>Please use the <a href="http://github.com/georgepaterson/jquery-videobackground/issues">GitHub issue tracker</a> for bug reports and feature requests.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/georgepaterson">georgepaterson</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
+			}
+			dt {
+				float: left;
+				width: 160px;
+			}
+			dd {
+				margin: 0 0 10px 160px;
+			}
+			/*
+			 * If developing a full page background the styles from .video-background will be required.
+			 * The classname itself is unimportant.
+			 *
+			 */
+			.video-background {
+				position: absolute;
+				top: 0;
+				left: 0;
+				overflow: hidden;
+				width: 100%;
+				height: 100%;
+				z-index: 0;
+			}
+			.video-background video {
+				min-height: 100%; 
+				min-width:100%; 
+			}
+			#page {
+				position: relative; 
+				z-index: 1;
+				width: 960px;
+				color: #FFF;
+				background: transparent url(themes/background.png) repeat top left;
+				border-radius: 5px;
+				margin: 0 auto;
+			}
+			#main {
+				padding: 10px;
+				margin: 10px 0;
+			}
+		</style>
+		<script src="external/jquery.js"></script>
+		<script src="script/jquery.videobackground.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('dl').toggle();
+				$('h2').bind('click', function(event) {
+					event.preventDefault();
+					$(this).next('dl').slideToggle(500, function() {
+						$('.video-background').videobackground('resize');
+					});
+				});
+				$('body').prepend('<div class="video-background"></div>');
+				$('.video-background').videobackground({
+					videoSource: [['video/big-buck-bunny.mp4', 'video/mp4'],
+						['video/big-buck-bunny.webm', 'video/webm'], 
+						['video/big-buck-bunny.ogv', 'video/ogg']], 
+					controlPosition: '#main',
+					poster: 'video/big-buck-bunny.jpg',
+					loadedCallback: function() {
+						$(this).videobackground('mute');
+					}
+				});
+			});
+		</script>
+    </head>
+    <body>	
+		<div id="page">
+			<div id="page-group">
+				<div id="header" class="header" role="banner" ></div>
+				<div id="content">
+					<div id="main" role="main">
+						<h1>jQuery Video Background plugin</h1>
+						<p>Code available for download on <a href="http://github.com/georgepaterson/jquery-videobackground">Github</a>.</p>
+						<p>Example of the jQuery Video Background plugin. Will place a resizable video in to the background of the page or designated element. Browsers that don't support the HTML5 video element will get an image if a poster image was provided.</p>
+						<p>If the containing element's width and height does not match the aspect ration of the video, the video will not alter it's aspect ratio but will render based on the largest dimension.</p>
+						<h2><a href="#">Public methods</a></h2>
+						<dl>
+							<dt>play:</dt>
+							<dd>Trigger a play/pause event on the chosen video background. Will play if the video is already paused. Will pause if the video is already playing.</dd> 
+							<dt>mute:</dt>
+							<dd>Trigger a mute/unmute event on the chosen video background. Will unmute if the video is already muted. Will mute if the video is unmuted.</dd>
+							<dt>destroy:</dt>
+							<dd>Will destroy the chosen video background. Unbinds events bound when the video background is initialised and removes HTML attached to the DOM by the plugin. If a controlPosition parameter is set this will also have to be set to safely remove all HTML elements from the DOM.</dd>
+							<dt>resize:</dt>
+							<dd>When invoked this will resize the video background to the height of the document or window. The video background height affects the height of the document which affects the video background's ability to negatively resize.</dd>
+						</dl>
+						<h2><a href="#">Plugin parameters</a></h2>
+						<dl>
+							<dt>videoSource:</dt> 
+							<dd>Either an array of strings of video URL's or a two-dimensional array containing video URL's and type. No default.</li>
+							<dt>poster:</dt> 
+							<dd>The URL string of the image used for the video poster attribute. No default.</dd>
+							<dt>autoplay:</dt> 
+							<dd>Video autoplay attribute boolean. Default is true.</dd>
+							<dt>preload:</dt> 
+							<dd>Video prelod attribute string. Default is none.</dd>
+							<dt>loop:</dt> 
+							<dd>Video loop attribute boolean. Default is false.</dd>
+							<dt>controlPosition:</dt> 
+							<dd>Position of the video controls, will append the controls to choose DOM element. Default is null.  If null will append controls to the element the video background has been applied to.</dd>
+							<dt>controlText:</dt> 
+							<dd>An array of text options for the video control elements.</dd>
+							<dt>resize:</dt> 
+							<dd>Boolean which will trigger the video background to resize to match the browser height. Set to false is video background is used on another element. Default is true.</dd>
+							<dt>preloadHtml:</dt> 
+							<dd>If required, a user controlled HTML string can be injected in to the control area of the page while the video is preloading. It will be over written by the video controls when the video is ready to play.</dd>
+							<dt>preloadCallback:</dt> 
+							<dd>Allows a function to be triggered when the video preload is initiated.</dd>
+							<dt>loadedCallback:</dt> 
+							<dd>Allows a function to be triggered when the video is loaded.</dd>
+							<dt>resizeTo:</dt> 
+							<dd>Allows the video background to resize to either the document or the window. Default is document.</dd>
+						</dl>
+						<p>Video trailer from <a href="http://www.bigbuckbunny.org/">http://www.bigbuckbunny.org/</a>. An open source <a href="http://www.blender.org/">Blender</a> project.</p>
+						<p>Please use the <a href="https://github.com/georgepaterson/jquery-videobackground/issues">GitHub issue tracker</a> for bug reports and feature requests.</p>
+					</div>
+					<div id="aside" class="aside" role="complementary">
+					</div>
+				</div>
+			</div>
+			<div id="footer" class="footer" role="contentinfo"></div>
+		</div>
+    </body>
 </html>
