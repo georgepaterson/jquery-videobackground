@@ -30,6 +30,14 @@ Video trailer from [http://www.bigbuckbunny.org/](www.bigbuckbunny.org), an open
 
 ## Change log
 
+Release 1.4.0
+
+* Adding bower.json.
+
+Release 1.3.1
+
+* Using semver.
+
 Release 1.3.0
 
 * resizeTo option to control document or window height resizing.
