@@ -397,7 +397,7 @@
 		videoSource: [],
 		poster: null,
 		autoplay: true,
-		preload: 'none',
+		preload: 'auto',
 		loop: false,
 		controlPosition: null,
 		controlText: ['Play', 'Pause', 'Mute', 'Unmute'],
