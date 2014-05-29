@@ -30,6 +30,10 @@ Video trailer from [http://www.bigbuckbunny.org/](www.bigbuckbunny.org), an open
 
 ## Change log
 
+Release 1.4.1
+
+* Issue #79 Chrome prevents the video playing if preload is set to none.
+
 Release 1.4.0
 
 * Adding bower.json.
