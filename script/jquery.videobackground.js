@@ -201,6 +201,9 @@
 						if (that.settings.loop) {
 							attributes = attributes + ' loop="loop"';
 						}
+						if (that.settings.muted) {
+							attributes = attributes + ' muted="muted"';
+						}
 						$(that).html('<video ' + attributes + '>' + compiledSource + '</video>');
 						/*
 						 * Append the control box either to the supplied that or the video background that.	

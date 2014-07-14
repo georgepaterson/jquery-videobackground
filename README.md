@@ -25,6 +25,7 @@ Plugin parameters:
 *	preloadCallback: Allows a function to be triggered when the video preload is initiated.
 *	loadedCallback: Allows a function to be triggered when the video is loaded.
 *	resizeTo: Allows the video background to resize to either the document or the window. Default is document.
+*	muted: Starts video muted.  Default is falsey.
 
 Video trailer from [http://www.bigbuckbunny.org/](www.bigbuckbunny.org), an open source [http://www.blender.org/](Blender) project.
 

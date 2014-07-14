@@ -32,6 +32,16 @@ $(document).ready(function () {
 		}).remove();
 		ok(true, '.videobackground() as an array of arrays called on empty collection');
 	});
+	test('config', function() {
+		var $div, $vid;
+		$div = $('<div></div>').appendTo('body').videobackground({
+			videoSource: videoFiles,
+			muted: true,
+		});
+		$vid = $div.find('video');
+		ok($vid.attr('muted')=='muted', '.videobackground() "muted" configuration paramter works');
+		$div.remove();
+	});
 	test('play', function () {
 		$('<div></div>').appendTo('body').videobackground({
 			videoSource: videoFiles
