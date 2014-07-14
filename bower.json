@@ -1,6 +1,6 @@
 {
   "name": "jquery-videobackground",
-  "version": "1.4.1",
+  "version": "1.5",
   "main": "script/jquery.videobackground.js",
   "description": "A background HTML5 video player using jQuery",
   "license": "MIT",

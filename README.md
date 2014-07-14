@@ -31,6 +31,10 @@ Video trailer from [http://www.bigbuckbunny.org/](www.bigbuckbunny.org), an open
 
 ## Change log
 
+Release 1.5
+
+* Merge pull request #82, add configuration parameter to start video muted from [EthanRBrown](https://github.com/EthanRBrown)
+
 Release 1.4.1
 
 * Issue #79 Chrome prevents the video playing if preload is set to none.
