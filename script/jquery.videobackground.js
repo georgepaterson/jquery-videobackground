@@ -1,4 +1,5 @@
 /*!
+ * jQuery Video Background v1.5
  * jQuery Video Background plugin
  * https://github.com/georgepaterson/jquery-videobackground
  *
